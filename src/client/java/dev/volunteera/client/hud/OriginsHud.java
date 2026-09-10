@@ -38,7 +38,7 @@ public final class OriginsHud {
 
 	private static void extract(GuiGraphicsExtractor g, DeltaTracker delta) {
 		Minecraft mc = Minecraft.getInstance();
-		if (mc.player == null || mc.options.hideGui) {
+		if (mc.player == null || mc.gui.hud.isHidden()) {
 			return;
 		}
 		Origin origin = ClientState.origin();
