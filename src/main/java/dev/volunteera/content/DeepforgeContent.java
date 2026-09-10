@@ -93,7 +93,7 @@ public final class DeepforgeContent {
 		// Profile: one block tall, heavy, deliberate.
 		OriginAttributes.registerProfile(origin, List.of(
 				new OriginAttributes.ModSpec(DeepforgeContent.id("deepforge_small"), VanillaLookup.SCALE, 0.45,
-						AttributeModifier.Operation.MULTIPLY_BASE, null),
+						AttributeModifier.Operation.ADD_MULTIPLIED_BASE, null),
 				new OriginAttributes.ModSpec(DeepforgeContent.id("deepforge_reach"), VanillaLookup.BLOCK_INTERACTION_RANGE, -0.5,
 						AttributeModifier.Operation.ADD_VALUE, null),
 				new OriginAttributes.ModSpec(DeepforgeContent.id("deepforge_squat"), VanillaLookup.attrHolder("generic.movement_speed", "movement_speed"), -0.015,
@@ -125,7 +125,7 @@ public final class DeepforgeContent {
 			default -> 1.5;
 		};
 		return new OriginAttributes.ModSpec(DeepforgeContent.id("deepforge_titan_pick"),
-				VanillaLookup.BLOCK_BREAK_SPEED, amount, AttributeModifier.Operation.MULTIPLY_BASE, ItemTags.PICKAXES);
+				VanillaLookup.BLOCK_BREAK_SPEED, amount, AttributeModifier.Operation.ADD_MULTIPLIED_BASE, ItemTags.PICKAXES);
 	}
 
 	// ------------------------------------------------------------- abilities

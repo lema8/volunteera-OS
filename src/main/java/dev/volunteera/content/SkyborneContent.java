@@ -382,7 +382,7 @@ public final class SkyborneContent {
 					default -> 0.50;
 				};
 				OriginAttributes.apply(player, new OriginAttributes.ModSpec(SkyborneContent.id("skyborne_arrows_mod"),
-						VanillaLookup.ARROW_DAMAGE, amount, AttributeModifier.Operation.MULTIPLY_TOTAL, null), apply);
+						VanillaLookup.ARROW_DAMAGE, amount, AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL, null), apply);
 			}
 		};
 	}

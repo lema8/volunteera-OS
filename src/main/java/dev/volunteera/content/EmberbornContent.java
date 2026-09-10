@@ -12,7 +12,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.effect.MobEffectInstance;
-import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.EntityTypes;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -90,7 +90,7 @@ public final class EmberbornContent {
 			Abilities.register(ability);
 		}
 		Trials.registerHandler(PYRE_TRIAL, (context, current) ->
-				context.entity() != null && context.entity().getType() == EntityType.BLAZE ? current + 1 : current);
+				context.entity() != null && context.entity().getType() == EntityTypes.BLAZE ? current + 1 : current);
 	}
 
 	private static boolean doused(ServerPlayer player) {
