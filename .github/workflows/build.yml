@@ -38,20 +38,23 @@ jobs:
           lines = log.splitlines()
           i = 0
           reported = 0
-          while i < len(lines) and reported < 45:
+          while i < len(lines) and reported < 40:
               line = lines[i]
               if ": error: " in line:
-                  print("::error::" + line[:1000])
-                  reported += 1
+                  head = line[:700]
+                  extra = []
                   j = i + 1
                   while j < len(lines) and (lines[j].startswith("  symbol:") or lines[j].startswith("  location:")):
-                      print("::error::    " + lines[j].strip()[:900])
+                      extra.append(lines[j].strip())
                       j += 1
+                  if extra:
+                      head = head + " {" + " | ".join(extra) + "}"
+                  print("::error::" + head[:1000])
+                  reported += 1
                   i = j
               else:
                   i += 1
-          tail = [l for l in lines[-12:] if l.strip()]
-          for t in tail[:6]:
+          for t in [l for l in lines[-10:] if l.strip()][-5:]:
               print("::error::LOG " + t[:900])
           PYEOF
 

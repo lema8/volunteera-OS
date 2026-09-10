@@ -94,7 +94,7 @@ public final class EmberbornContent {
 	}
 
 	private static boolean doused(ServerPlayer player) {
-		return RuntimeManager.get(player).dousedTicks > 0;
+		return runtime.dousedTicks > 0;
 	}
 
 	// ------------------------------------------------------------- abilities
@@ -336,7 +336,7 @@ public final class EmberbornContent {
 			}
 
 			@Override
-			public void passiveTick(ServerPlayer player, int level, RuntimeManager runtimes) {
+			public void passiveTick(ServerPlayer player, int level, PlayerRuntime runtime) {
 				if (level >= 2 && player.getRemainingFireTicks() > 30) {
 					player.setRemainingFireTicks(30);
 				}
@@ -356,13 +356,13 @@ public final class EmberbornContent {
 			private static final Map<String, Item> COOKED_CACHE = new HashMap<>();
 
 			@Override
-			public void passiveTick(ServerPlayer player, int level, RuntimeManager runtimes) {
+			public void passiveTick(ServerPlayer player, int level, PlayerRuntime runtime) {
 				int interval = switch (level) {
 					case 1 -> 60; // 3s
 					case 2 -> 40; // 2s
 					default -> 20; // 1s
 				};
-				if (player.tickCount % interval != 0 || RuntimeManager.get(player).dousedTicks > 0) {
+				if (player.tickCount % interval != 0 || runtime.dousedTicks > 0) {
 					return;
 				}
 				var inventory = player.getInventory();

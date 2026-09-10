@@ -12,6 +12,7 @@ import dev.volunteera.api.Ability;
 import dev.volunteera.api.Origin;
 import dev.volunteera.api.Origins;
 import dev.volunteera.net.StateSync;
+import dev.volunteera.progress.ProgressData;
 import dev.volunteera.progress.ProgressManager;
 import dev.volunteera.runtime.PlayerRuntime;
 import dev.volunteera.runtime.RuntimeManager;

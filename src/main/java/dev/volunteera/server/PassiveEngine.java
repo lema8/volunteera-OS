@@ -43,7 +43,7 @@ public final class PassiveEngine {
 					continue;
 				}
 				try {
-					ability.passiveTick(player, level, RuntimeManager.get(player));
+					ability.passiveTick(player, level, rt);
 				} catch (Exception e) {
 					VolunteeraMod.LOGGER.error("passiveTick({}) failed", ability.id(), e);
 				}

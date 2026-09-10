@@ -39,7 +39,6 @@ public class VolunteeraMod implements ModInitializer {
 		Networking.init();
 		RuntimeManager.init();
 		EventHooks.init();
-		ModCommands.init();
 
 		LOGGER.info("Volunteera initialized with {} origins and {} abilities.",
 				dev.volunteera.api.Origins.count(),

@@ -40,8 +40,7 @@ public final class AbilityFx {
 		float scaledDamage = damage * ModConfig.get().damageMultiplier;
 		int hits = 0;
 		for (LivingEntity target : targets) {
-			if (target instanceof net.minecraft.world.entity.player.Player
-					&& !(owner.getServer() == null || ModConfig.get().allowPvp)) {
+			if (target instanceof net.minecraft.world.entity.player.Player && !ModConfig.get().allowPvp) {
 				continue;
 			}
 			target.hurtServer(level, level.damageSources().indirectMagic(owner, owner), scaledDamage);

@@ -67,7 +67,7 @@ public final class DeepforgeContent {
 	 * of BlockTags constants, so renames of the constants cannot break the
 	 * lookup (the datapack-facing tag ids are very stable).
 	 */
-	private static final List<TagKey<Block>> ORE_TAGS = List.of(
+	public static final List<TagKey<Block>> ORE_TAGS = List.of(
 			oreTag("iron_ores"), oreTag("gold_ores"), oreTag("diamond_ores"),
 			oreTag("emerald_ores"), oreTag("copper_ores"), oreTag("coal_ores"),
 			oreTag("redstone_ores"), oreTag("lapis_ores"));
@@ -384,7 +384,7 @@ public final class DeepforgeContent {
 			}
 
 			@Override
-			public void passiveTick(ServerPlayer player, int level, RuntimeManager runtimes) {
+			public void passiveTick(ServerPlayer player, int level, PlayerRuntime runtime) {
 				boolean inLava = player.isInLava();
 				if (VanillaLookup.FIRE_RESISTANCE != null && inLava) {
 					player.addEffect(new MobEffectInstance(VanillaLookup.FIRE_RESISTANCE, 100, 0, true, false, true));

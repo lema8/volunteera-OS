@@ -201,8 +201,8 @@ public final class SkyborneContent {
 			}
 
 			@Override
-			public void passiveTick(ServerPlayer player, int level, RuntimeManager runtimes) {
-				PlayerRuntime rt = runtimes.get(player);
+			public void passiveTick(ServerPlayer player, int level, PlayerRuntime runtime) {
+				PlayerRuntime rt = runtime;
 				int max = ModConfig.get().skyborne.galeMaxCharges[level - 1];
 				if (rt.windCharges >= max) {
 					rt.chargeRefillTicks = 0;
@@ -326,8 +326,8 @@ public final class SkyborneContent {
 			}
 
 			@Override
-			public void passiveTick(ServerPlayer player, int level, RuntimeManager runtimes) {
-				PlayerRuntime rt = runtimes.get(player);
+			public void passiveTick(ServerPlayer player, int level, PlayerRuntime runtime) {
+				PlayerRuntime rt = runtime;
 				if (!rt.tempestDiving) {
 					return;
 				}
@@ -397,7 +397,7 @@ public final class SkyborneContent {
 				.maxLevel(2).unlockXp(10, 30)
 				.cooldown(0f)) {
 			@Override
-			public void passiveTick(ServerPlayer player, int level, RuntimeManager runtimes) {
+			public void passiveTick(ServerPlayer player, int level, PlayerRuntime runtime) {
 				if (player.tickCount % 600 == 0) {
 					player.getFoodData().addExhaustion(2.0f); // the tradeoff
 				}

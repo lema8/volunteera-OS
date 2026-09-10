@@ -30,9 +30,9 @@ public record ProgressData(
 
 	public static final Codec<ProgressData> CODEC = RecordCodecBuilder.create(instance -> instance.group(
 			Identifier.CODEC.optionalFieldOf("origin", null).forGetter(ProgressData::origin),
-			ExtraCodecs.strictUnboundedMap(Identifier.CODEC, Codec.INT).optionalFieldOf("ability_levels", Map.of()).forGetter(ProgressData::abilityLevels),
-			ExtraCodecs.strictUnboundedMap(Identifier.CODEC, Codec.INT).optionalFieldOf("trial_progress", Map.of()).forGetter(ProgressData::trialProgress),
-			ExtraCodecs.strictUnboundedMap(Identifier.CODEC, Codec.BOOL).optionalFieldOf("unlocked_world", Map.of()).forGetter(ProgressData::unlockedWorld),
+			Codec.unboundedMap(Identifier.CODEC, Codec.INT).optionalFieldOf("ability_levels", Map.of()).forGetter(ProgressData::abilityLevels),
+			Codec.unboundedMap(Identifier.CODEC, Codec.INT).optionalFieldOf("trial_progress", Map.of()).forGetter(ProgressData::trialProgress),
+			Codec.unboundedMap(Identifier.CODEC, Codec.BOOL).optionalFieldOf("unlocked_world", Map.of()).forGetter(ProgressData::unlockedWorld),
 			Codec.BOOL.optionalFieldOf("test_mode", false).forGetter(ProgressData::testMode))
 			.apply(instance, (origin, levels, trials, world, testMode) ->
 					new ProgressData(origin.orElse(null), levels, trials, world, testMode)));

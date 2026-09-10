@@ -8,7 +8,7 @@ import org.jspecify.annotations.Nullable;
 
 import net.minecraft.server.level.ServerPlayer;
 
-import dev.volunteera.runtime.RuntimeManager;
+import dev.volunteera.runtime.PlayerRuntime;
 
 /**
  * A single power belonging to an {@link Origin}.
@@ -158,7 +158,7 @@ public abstract class Ability {
 	}
 
 	/** Optional per-player slow tick (every 10 ticks) for passive behaviors. */
-	public void passiveTick(ServerPlayer player, int level, RuntimeManager runtimes) {
+	public void passiveTick(ServerPlayer player, int level, PlayerRuntime runtime) {
 	}
 
 	// ------------------------------------------------------------- builder
