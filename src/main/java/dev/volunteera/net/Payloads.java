@@ -23,7 +23,7 @@ public final class Payloads {
 		public static final Type<UseAbilityPayload> TYPE =
 				new Type<>(Identifier.fromNamespaceAndPath(VolunteeraMod.MOD_ID, "use_ability"));
 		public static final StreamCodec<FriendlyByteBuf, UseAbilityPayload> CODEC = StreamCodec.ofMember(
-				(buf, p) -> buf.writeIdentifier(p.abilityId),
+				(p, buf) -> buf.writeIdentifier(p.abilityId),
 				buf -> new UseAbilityPayload(buf.readIdentifier()));
 
 		@Override
@@ -36,7 +36,7 @@ public final class Payloads {
 		public static final Type<SetOriginPayload> TYPE =
 				new Type<>(Identifier.fromNamespaceAndPath(VolunteeraMod.MOD_ID, "set_origin"));
 		public static final StreamCodec<FriendlyByteBuf, SetOriginPayload> CODEC = StreamCodec.ofMember(
-				(buf, p) -> {
+				(p, buf) -> {
 					buf.writeBoolean(p.originId != null);
 					if (p.originId != null) {
 						buf.writeIdentifier(p.originId);
@@ -86,7 +86,7 @@ public final class Payloads {
 				SyncStatePayload::write,
 				SyncStatePayload::read);
 
-		private static void write(FriendlyByteBuf buf, SyncStatePayload p) {
+		private static void write(SyncStatePayload p, FriendlyByteBuf buf) {
 			buf.writeBoolean(p.originId != null);
 			if (p.originId != null) {
 				buf.writeIdentifier(p.originId);
