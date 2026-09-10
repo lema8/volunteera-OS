@@ -31,6 +31,7 @@ import dev.volunteera.progress.ProgressManager;
 import dev.volunteera.runtime.PlayerRuntime;
 import dev.volunteera.runtime.RuntimeManager;
 import dev.volunteera.runtime.FlightController;
+import dev.volunteera.server.AbilityEngine;
 import dev.volunteera.server.OriginAttributes;
 import dev.volunteera.server.EventHooks;
 

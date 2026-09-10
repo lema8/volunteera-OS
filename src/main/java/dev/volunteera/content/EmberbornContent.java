@@ -45,18 +45,18 @@ import dev.volunteera.server.VanillaLookup;
  * hunger bar alive.
  */
 public final class EmberbornContent {
-	public static final Identifier RADIANCE_ID = id("emberborn_radiance");
-	public static final Identifier BURNING_GRIP_ID = id("emberborn_burning_grip");
-	public static final Identifier FLAME_DASH_ID = id("emberborn_flame_dash");
-	public static final Identifier CINDER_NOVA_ID = id("emberborn_cinder_nova");
-	public static final Identifier IMMOLATION_ID = id("emberborn_immolation");
-	public static final Identifier MAGMA_BLOOD_ID = id("emberborn_magma_blood");
-	public static final Identifier KINDLED_MEALS_ID = id("emberborn_kindled_meals");
-	public static final Identifier BLAZING_LEAP_ID = id("emberborn_blazing_leap");
-	public static final Identifier PYRE_BALL_ID = id("emberborn_pyre_ball");
-	public static final Identifier BURNOUT_ID = id("emberborn_burnout_curse");
+	public static final Identifier RADIANCE_ID = EmberbornContent.id("emberborn_radiance");
+	public static final Identifier BURNING_GRIP_ID = EmberbornContent.id("emberborn_burning_grip");
+	public static final Identifier FLAME_DASH_ID = EmberbornContent.id("emberborn_flame_dash");
+	public static final Identifier CINDER_NOVA_ID = EmberbornContent.id("emberborn_cinder_nova");
+	public static final Identifier IMMOLATION_ID = EmberbornContent.id("emberborn_immolation");
+	public static final Identifier MAGMA_BLOOD_ID = EmberbornContent.id("emberborn_magma_blood");
+	public static final Identifier KINDLED_MEALS_ID = EmberbornContent.id("emberborn_kindled_meals");
+	public static final Identifier BLAZING_LEAP_ID = EmberbornContent.id("emberborn_blazing_leap");
+	public static final Identifier PYRE_BALL_ID = EmberbornContent.id("emberborn_pyre_ball");
+	public static final Identifier BURNOUT_ID = EmberbornContent.id("emberborn_burnout_curse");
 
-	public static final Trial PYRE_TRIAL = new Trial(id("emberborn_pyre"), 15, Trial.Event.KILL);
+	public static final Trial PYRE_TRIAL = new Trial(EmberbornContent.id("emberborn_pyre"), 15, Trial.Event.KILL);
 
 	private EmberbornContent() {
 	}
@@ -82,7 +82,7 @@ public final class EmberbornContent {
 		// Emberborn profile: slightly tougher than baseline (the weakness is
 		// water, not frailty).
 		OriginAttributes.registerProfile(origin, java.util.List.of(
-				new OriginAttributes.ModSpec(id("emberborn_vitality"), VanillaLookup.attrHolder("generic.max_health", "max_health"), 2.0,
+				new OriginAttributes.ModSpec(EmberbornContent.id("emberborn_vitality"), VanillaLookup.attrHolder("generic.max_health", "max_health"), 2.0,
 						AttributeModifier.Operation.ADD_VALUE, null)));
 
 		Origins.register(origin);

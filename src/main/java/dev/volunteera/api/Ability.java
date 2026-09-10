@@ -38,6 +38,19 @@ public abstract class Ability {
 	@Nullable
 	private final Trial worldTrial;
 
+	/** Factories mirrored from {@link Builder} for call-site readability. */
+	public static Builder<?> active(Identifier id) {
+		return Builder.active(id);
+	}
+
+	public static Builder<?> toggle(Identifier id) {
+		return Builder.toggle(id);
+	}
+
+	public static Builder<?> passive(Identifier id) {
+		return Builder.passive(id);
+	}
+
 	protected Ability(Builder<?> builder) {
 		this.id = builder.id;
 		this.kind = builder.kind;

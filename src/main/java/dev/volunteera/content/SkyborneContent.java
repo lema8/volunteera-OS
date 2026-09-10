@@ -37,18 +37,18 @@ import dev.volunteera.server.VanillaLookup;
  * the ground collects.
  */
 public final class SkyborneContent {
-	public static final Identifier TAILWIND_ID = id("skyborne_tailwind");
-	public static final Identifier ASCENSION_ID = id("skyborne_ascension");
-	public static final Identifier GALE_BURST_ID = id("skyborne_gale_burst");
-	public static final Identifier THERMAL_CURRENTS_ID = id("skyborne_thermal_currents");
-	public static final Identifier GLIDE_ID = id("skyborne_glide");
-	public static final Identifier TEMPEST_DIVE_ID = id("skyborne_tempest_dive");
-	public static final Identifier SKY_MARKSMANSHIP_ID = id("skyborne_sky_marksmanship");
-	public static final Identifier LIGHT_FRAME_ID = id("skyborne_skyborne_reserves");
-	public static final Identifier GROUNDING_BARBS_ID = id("skyborne_grounding_barbs");
-	public static final Identifier WINDBORNE_GRACE_ID = id("skyborne_windborne_grace");
+	public static final Identifier TAILWIND_ID = SkyborneContent.id("skyborne_tailwind");
+	public static final Identifier ASCENSION_ID = SkyborneContent.id("skyborne_ascension");
+	public static final Identifier GALE_BURST_ID = SkyborneContent.id("skyborne_gale_burst");
+	public static final Identifier THERMAL_CURRENTS_ID = SkyborneContent.id("skyborne_thermal_currents");
+	public static final Identifier GLIDE_ID = SkyborneContent.id("skyborne_glide");
+	public static final Identifier TEMPEST_DIVE_ID = SkyborneContent.id("skyborne_tempest_dive");
+	public static final Identifier SKY_MARKSMANSHIP_ID = SkyborneContent.id("skyborne_sky_marksmanship");
+	public static final Identifier LIGHT_FRAME_ID = SkyborneContent.id("skyborne_skyborne_reserves");
+	public static final Identifier GROUNDING_BARBS_ID = SkyborneContent.id("skyborne_grounding_barbs");
+	public static final Identifier WINDBORNE_GRACE_ID = SkyborneContent.id("skyborne_windborne_grace");
 
-	public static final Trial TEMPEST_TRIAL = new Trial(id("skyborne_tempest"), 2000, Trial.Event.GLIDE);
+	public static final Trial TEMPEST_TRIAL = new Trial(SkyborneContent.id("skyborne_tempest"), 2000, Trial.Event.GLIDE);
 
 	private SkyborneContent() {
 	}
@@ -73,9 +73,9 @@ public final class SkyborneContent {
 
 		// Profile: fragile frame, quick feet.
 		OriginAttributes.registerProfile(origin, java.util.List.of(
-				new OriginAttributes.ModSpec(id("skyborne_frame"), VanillaLookup.attrHolder("generic.max_health", "max_health"), -2.0,
+				new OriginAttributes.ModSpec(SkyborneContent.id("skyborne_frame"), VanillaLookup.attrHolder("generic.max_health", "max_health"), -2.0,
 						AttributeModifier.Operation.ADD_VALUE, null),
-				new OriginAttributes.ModSpec(id("skyborne_grace"), VanillaLookup.attrHolder("generic.movement_speed", "movement_speed"), 0.02,
+				new OriginAttributes.ModSpec(SkyborneContent.id("skyborne_grace"), VanillaLookup.attrHolder("generic.movement_speed", "movement_speed"), 0.02,
 						AttributeModifier.Operation.ADD_VALUE, null)));
 
 		Origins.register(origin);
@@ -106,7 +106,7 @@ public final class SkyborneContent {
 					case 2 -> 0.05;
 					default -> 0.07;
 				};
-				return new OriginAttributes.ModSpec(id("skyborne_tailwind_mod"),
+				return new OriginAttributes.ModSpec(SkyborneContent.id("skyborne_tailwind_mod"),
 						VanillaLookup.attrHolder("generic.movement_speed", "movement_speed"), amount,
 						AttributeModifier.Operation.ADD_VALUE, null);
 			}
@@ -381,7 +381,7 @@ public final class SkyborneContent {
 					case 2 -> 0.30;
 					default -> 0.50;
 				};
-				OriginAttributes.apply(player, new OriginAttributes.ModSpec(id("skyborne_arrows_mod"),
+				OriginAttributes.apply(player, new OriginAttributes.ModSpec(SkyborneContent.id("skyborne_arrows_mod"),
 						VanillaLookup.ARROW_DAMAGE, amount, AttributeModifier.Operation.MULTIPLY_TOTAL, null), apply);
 			}
 		};

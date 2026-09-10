@@ -50,18 +50,18 @@ import dev.volunteera.server.VanillaLookup;
  * melee. Slow, short-ranged, and terrible at ranged combat.
  */
 public final class DeepforgeContent {
-	public static final Identifier TITAN_SWINGS_ID = id("deepforge_titan_swings");
-	public static final Identifier STONEBLOOD_ID = id("deepforge_stoneblood");
-	public static final Identifier VEIN_SENSE_ID = id("deepforge_vein_sense");
-	public static final Identifier EARTH_SHATTER_ID = id("deepforge_earth_shatter");
-	public static final Identifier DEEP_EYES_ID = id("deepforge_darkvision");
-	public static final Identifier ANVIL_FISTS_ID = id("deepforge_anvil_fists");
-	public static final Identifier MOLTEN_CORE_ID = id("deepforge_molten_core");
-	public static final Identifier GILDED_TREASURY_ID = id("deepforge_gilded_treasury");
-	public static final Identifier SHIELDWALL_ID = id("deepforge_shieldwall");
-	public static final Identifier LANTERN_ID = id("deepforge_stonewrought_lantern");
+	public static final Identifier TITAN_SWINGS_ID = DeepforgeContent.id("deepforge_titan_swings");
+	public static final Identifier STONEBLOOD_ID = DeepforgeContent.id("deepforge_stoneblood");
+	public static final Identifier VEIN_SENSE_ID = DeepforgeContent.id("deepforge_vein_sense");
+	public static final Identifier EARTH_SHATTER_ID = DeepforgeContent.id("deepforge_earth_shatter");
+	public static final Identifier DEEP_EYES_ID = DeepforgeContent.id("deepforge_darkvision");
+	public static final Identifier ANVIL_FISTS_ID = DeepforgeContent.id("deepforge_anvil_fists");
+	public static final Identifier MOLTEN_CORE_ID = DeepforgeContent.id("deepforge_molten_core");
+	public static final Identifier GILDED_TREASURY_ID = DeepforgeContent.id("deepforge_gilded_treasury");
+	public static final Identifier SHIELDWALL_ID = DeepforgeContent.id("deepforge_shieldwall");
+	public static final Identifier LANTERN_ID = DeepforgeContent.id("deepforge_stonewrought_lantern");
 
-	public static final Trial DEPTHS_TRIAL = new Trial(id("deepforge_depths"), 64, Trial.Event.MINE);
+	public static final Trial DEPTHS_TRIAL = new Trial(DeepforgeContent.id("deepforge_depths"), 64, Trial.Event.MINE);
 
 	/** Ore tags scanned by Vein Sense, with display names. */
 	private static final List<TagKey<Block>> ORE_TAGS = List.of(
@@ -92,11 +92,11 @@ public final class DeepforgeContent {
 
 		// Profile: one block tall, heavy, deliberate.
 		OriginAttributes.registerProfile(origin, List.of(
-				new OriginAttributes.ModSpec(id("deepforge_small"), VanillaLookup.SCALE, 0.45,
+				new OriginAttributes.ModSpec(DeepforgeContent.id("deepforge_small"), VanillaLookup.SCALE, 0.45,
 						AttributeModifier.Operation.MULTIPLY_BASE, null),
-				new OriginAttributes.ModSpec(id("deepforge_reach"), VanillaLookup.BLOCK_INTERACTION_RANGE, -0.5,
+				new OriginAttributes.ModSpec(DeepforgeContent.id("deepforge_reach"), VanillaLookup.BLOCK_INTERACTION_RANGE, -0.5,
 						AttributeModifier.Operation.ADD_VALUE, null),
-				new OriginAttributes.ModSpec(id("deepforge_squat"), VanillaLookup.attrHolder("generic.movement_speed", "movement_speed"), -0.015,
+				new OriginAttributes.ModSpec(DeepforgeContent.id("deepforge_squat"), VanillaLookup.attrHolder("generic.movement_speed", "movement_speed"), -0.015,
 						AttributeModifier.Operation.ADD_VALUE, null)));
 
 		Origins.register(origin);
@@ -124,7 +124,7 @@ public final class DeepforgeContent {
 			case 2 -> 1.0;
 			default -> 1.5;
 		};
-		return new OriginAttributes.ModSpec(id("deepforge_titan_pick"),
+		return new OriginAttributes.ModSpec(DeepforgeContent.id("deepforge_titan_pick"),
 				VanillaLookup.BLOCK_BREAK_SPEED, amount, AttributeModifier.Operation.MULTIPLY_BASE, ItemTags.PICKAXES);
 	}
 
@@ -150,7 +150,7 @@ public final class DeepforgeContent {
 					case 2 -> 0.6;
 					default -> 1.0;
 				};
-				OriginAttributes.apply(player, new OriginAttributes.ModSpec(id("deepforge_titan_base"),
+				OriginAttributes.apply(player, new OriginAttributes.ModSpec(DeepforgeContent.id("deepforge_titan_base"),
 						VanillaLookup.BLOCK_BREAK_SPEED, amount, AttributeModifier.Operation.ADD_VALUE, null), apply);
 				if (!apply) {
 					OriginAttributes.removeToolModifier(player, pickaxeSpec(Math.max(level, 1)));
@@ -167,10 +167,10 @@ public final class DeepforgeContent {
 				.cooldown(0f)) {
 			@Override
 			public void applyPassives(ServerPlayer player, int level, boolean apply) {
-				OriginAttributes.apply(player, new OriginAttributes.ModSpec(id("deepforge_stone_hp"),
+				OriginAttributes.apply(player, new OriginAttributes.ModSpec(DeepforgeContent.id("deepforge_stone_hp"),
 						VanillaLookup.attrHolder("generic.max_health", "max_health"), level >= 2 ? 8.0 : 6.0,
 						AttributeModifier.Operation.ADD_VALUE, null), apply);
-				OriginAttributes.apply(player, new OriginAttributes.ModSpec(id("deepforge_stone_kb"),
+				OriginAttributes.apply(player, new OriginAttributes.ModSpec(DeepforgeContent.id("deepforge_stone_kb"),
 						VanillaLookup.attrHolder("generic.knockback_resistance", "knockback_resistance"),
 						level >= 2 ? 0.4 : 0.2, AttributeModifier.Operation.ADD_VALUE, null), apply);
 			}
@@ -357,7 +357,7 @@ public final class DeepforgeContent {
 				.cooldown(0f)) {
 			@Override
 			public void applyPassives(ServerPlayer player, int level, boolean apply) {
-				OriginAttributes.apply(player, new OriginAttributes.ModSpec(id("deepforge_anvil_mod"),
+				OriginAttributes.apply(player, new OriginAttributes.ModSpec(DeepforgeContent.id("deepforge_anvil_mod"),
 						VanillaLookup.ATTACK_KNOCKBACK, level >= 2 ? 1.0 : 0.5,
 						AttributeModifier.Operation.ADD_VALUE, null), apply);
 			}
