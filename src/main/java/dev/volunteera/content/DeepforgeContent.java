@@ -12,7 +12,6 @@ import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundSource;
-import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -63,11 +62,20 @@ public final class DeepforgeContent {
 
 	public static final Trial DEPTHS_TRIAL = new Trial(DeepforgeContent.id("deepforge_depths"), 64, Trial.Event.MINE);
 
-	/** Ore tags scanned by Vein Sense, with display names. */
+	/**
+	 * Ore tags scanned by Vein Sense. Built from stable registry keys instead
+	 * of BlockTags constants, so renames of the constants cannot break the
+	 * lookup (the datapack-facing tag ids are very stable).
+	 */
 	private static final List<TagKey<Block>> ORE_TAGS = List.of(
-			BlockTags.IRON_ORES, BlockTags.GOLD_ORES, BlockTags.DIAMOND_ORES,
-			BlockTags.EMERALD_ORES, BlockTags.COPPER_ORES, BlockTags.COAL_ORES,
-			BlockTags.REDSTONE_ORES, BlockTags.LAPIS_ORES);
+			oreTag("iron_ores"), oreTag("gold_ores"), oreTag("diamond_ores"),
+			oreTag("emerald_ores"), oreTag("copper_ores"), oreTag("coal_ores"),
+			oreTag("redstone_ores"), oreTag("lapis_ores"));
+
+	private static TagKey<Block> oreTag(String name) {
+		return TagKey.create(net.minecraft.core.registries.Registries.BLOCK,
+				Identifier.withDefaultNamespace(name));
+	}
 
 	private DeepforgeContent() {
 	}

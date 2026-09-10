@@ -203,7 +203,7 @@ public final class EmberbornContent {
 				};
 				Vec3 velocity = new Vec3(look.x * speed, Math.max(0.2, look.y * 0.5 + 0.25), look.z * speed);
 				AbilityFx.setVelocity(player, velocity);
-				player.fallDistance = 0.0f;
+				player.resetFallDistance();
 				if (level >= 3 && VanillaLookup.HASTE != null) {
 					player.addEffect(new MobEffectInstance(VanillaLookup.HASTE, 60, 0, true, false, true));
 				}
@@ -433,7 +433,7 @@ public final class EmberbornContent {
 				Vec3 look = player.getLookAngle();
 				double up = level >= 2 ? 1.0 : 0.85;
 				AbilityFx.setVelocity(player, new Vec3(look.x * 0.35, up, look.z * 0.35));
-				player.fallDistance = 0.0f;
+				player.resetFallDistance();
 				if (level >= 2 && VanillaLookup.SLOW_FALLING != null) {
 					player.addEffect(new MobEffectInstance(VanillaLookup.SLOW_FALLING, 100, 0, true, false, true));
 				}

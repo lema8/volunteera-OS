@@ -190,7 +190,7 @@ public final class SkyborneContent {
 				Vec3 look = player.getLookAngle();
 				double speed = 1.2 + level * 0.15;
 				AbilityFx.setVelocity(player, new Vec3(look.x * speed, Math.max(0.3, look.y * 0.6 + 0.3), look.z * speed));
-				player.fallDistance = 0.0f;
+				player.resetFallDistance();
 				if (player.level() instanceof ServerLevel sl) {
 					AbilityFx.areaAttack(player, sl, player.position(), 2.0, 1.0f + level, 0.8, 0);
 					AbilityFx.burstParticles(sl, player.position(), ParticleTypes.POOF, 20, 0.5);
@@ -316,7 +316,7 @@ public final class SkyborneContent {
 				rt.tempestTicks = 0;
 				Vec3 look = player.getLookAngle();
 				AbilityFx.setVelocity(player, new Vec3(look.x * 0.4, -2.3, look.z * 0.4));
-				player.fallDistance = 0.0f;
+				player.resetFallDistance();
 				if (player.level() instanceof ServerLevel sl) {
 					AbilityFx.playSound(sl, player.position(), VanillaLookup.SND_LIGHTNING, 0.6f, 1.8f);
 					AbilityFx.burstParticles(sl, player.position(), ParticleTypes.CLOUD, 12, 0.4);
@@ -334,7 +334,7 @@ public final class SkyborneContent {
 				rt.tempestTicks += 10;
 				if (player.onGround()) {
 					rt.tempestDiving = false;
-					player.fallDistance = 0.0f;
+					player.resetFallDistance();
 					if (player.level() instanceof ServerLevel sl) {
 						float damage = level >= 2 ? 12.0f : 8.0f;
 						double radius = level >= 2 ? 4.0 : 3.5;

@@ -198,10 +198,11 @@ public final class EventHooks {
 			return false;
 		}
 
-		// Skyborne Windborne Grace L1/L2: small falls are free.
+		// Skyborne Windborne Grace L1/L2: small falls are free (judged by the
+		// damage amount, which tracks fall height).
 		if (graceLevel >= 1 && source.is(DamageTypeTags.IS_FALL)) {
 			float threshold = graceLevel >= 2 ? 9.0f : 5.0f;
-			if (player.fallDistance <= threshold) {
+			if (amount <= threshold) {
 				return false;
 			}
 		}
@@ -244,11 +245,11 @@ public final class EventHooks {
 		if (treasury == null || ProgressManager.effectiveLevel(player, treasury) <= 0) {
 			return;
 		}
-		if (state.is(net.minecraft.tags.BlockTags.DIAMOND_ORES)
-				|| state.is(net.minecraft.tags.BlockTags.EMERALD_ORES)
-				|| state.is(net.minecraft.tags.BlockTags.GOLD_ORES)
-				|| state.is(net.minecraft.tags.BlockTags.IRON_ORES)
-				|| state.is(net.minecraft.tags.BlockTags.LAPIS_ORES)) {
+		if (state.is(DeepforgeContent.ORE_TAGS.get(0))
+				|| state.is(DeepforgeContent.ORE_TAGS.get(1))
+				|| state.is(DeepforgeContent.ORE_TAGS.get(2))
+				|| state.is(DeepforgeContent.ORE_TAGS.get(3))
+				|| state.is(DeepforgeContent.ORE_TAGS.get(7))) {
 			if (player.getRandom().nextFloat() < 0.25f) {
 				player.giveExperiencePoints(1 + player.getRandom().nextInt(2));
 			}
