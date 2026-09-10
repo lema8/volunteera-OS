@@ -15,6 +15,7 @@ import dev.volunteera.progress.ProgressData;
 import dev.volunteera.progress.ProgressManager;
 import dev.volunteera.runtime.PlayerRuntime;
 import dev.volunteera.runtime.RuntimeManager;
+import dev.volunteera.server.AbilityEngine;
 
 /**
  * Builds and sends authoritative snapshots. The client HUD and menu render

@@ -24,10 +24,10 @@ public final class Networking {
 	}
 
 	public static void init() {
-		PayloadTypeRegistry.playC2S().register(Payloads.UseAbilityPayload.TYPE, Payloads.UseAbilityPayload.CODEC);
-		PayloadTypeRegistry.playC2S().register(Payloads.SetOriginPayload.TYPE, Payloads.SetOriginPayload.CODEC);
-		PayloadTypeRegistry.playC2S().register(Payloads.RequestSyncPayload.TYPE, Payloads.RequestSyncPayload.CODEC);
-		PayloadTypeRegistry.playS2C().register(Payloads.SyncStatePayload.TYPE, Payloads.SyncStatePayload.CODEC);
+		PayloadTypeRegistry.serverboundPlay().register(Payloads.UseAbilityPayload.TYPE, Payloads.UseAbilityPayload.CODEC);
+		PayloadTypeRegistry.serverboundPlay().register(Payloads.SetOriginPayload.TYPE, Payloads.SetOriginPayload.CODEC);
+		PayloadTypeRegistry.serverboundPlay().register(Payloads.RequestSyncPayload.TYPE, Payloads.RequestSyncPayload.CODEC);
+		PayloadTypeRegistry.clientboundPlay().register(Payloads.SyncStatePayload.TYPE, Payloads.SyncStatePayload.CODEC);
 
 		ServerPlayNetworking.registerGlobalReceiver(Payloads.UseAbilityPayload.TYPE, (payload, context) ->
 				AbilityEngine.tryActivate(context.player(), payload.abilityId()));
