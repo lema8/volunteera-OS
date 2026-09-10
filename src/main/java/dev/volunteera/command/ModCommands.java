@@ -8,6 +8,7 @@ import com.mojang.brigadier.arguments.IntegerArgumentType;
 import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
+import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.mojang.brigadier.suggestion.SuggestionProvider;
 
 import net.minecraft.commands.CommandSourceStack;
@@ -65,7 +66,7 @@ public final class ModCommands {
 
 	public static void register(CommandDispatcher<CommandSourceStack> dispatcher) {
 		LiteralArgumentBuilder<CommandSourceStack> root = Commands.literal("volunteera")
-				.requires(source -> source.hasPermission(2));
+				.requires(Commands.hasPermission(Commands.LEVEL_GAMEMASTERS));
 
 		root.then(Commands.literal("info").executes(ModCommands::info));
 
@@ -116,11 +117,11 @@ public final class ModCommands {
 
 	// ------------------------------------------------------------- handlers
 
-	private static ServerPlayer player(CommandContext<CommandSourceStack> ctx) throws Exception {
+	private static ServerPlayer player(CommandContext<CommandSourceStack> ctx) throws CommandSyntaxException {
 		return ctx.getSource().getPlayerOrException();
 	}
 
-	private static int info(CommandContext<CommandSourceStack> ctx) throws Exception {
+	private static int info(CommandContext<CommandSourceStack> ctx) throws CommandSyntaxException {
 		ServerPlayer target = player(ctx);
 		ProgressData data = ProgressData.get(target);
 		Origin origin = Origins.get(data.origin());
@@ -141,7 +142,7 @@ public final class ModCommands {
 		return 1;
 	}
 
-	private static int setOrigin(CommandContext<CommandSourceStack> ctx) throws Exception {
+	private static int setOrigin(CommandContext<CommandSourceStack> ctx) throws CommandSyntaxException {
 		ServerPlayer target = player(ctx);
 		String path = StringArgumentType.getString(ctx, "origin").toLowerCase(Locale.ROOT);
 		Identifier originId = "none".equals(path) ? null : Identifier.fromNamespaceAndPath(VolunteeraMod.MOD_ID, path);
@@ -155,7 +156,7 @@ public final class ModCommands {
 		return 1;
 	}
 
-	private static int unlockAbility(CommandContext<CommandSourceStack> ctx) throws Exception {
+	private static int unlockAbility(CommandContext<CommandSourceStack> ctx) throws CommandSyntaxException {
 		ServerPlayer target = player(ctx);
 		Ability ability = resolveAbility(ctx);
 		if (ability == null) {
@@ -175,7 +176,7 @@ public final class ModCommands {
 		return 1;
 	}
 
-	private static int unlockAll(CommandContext<CommandSourceStack> ctx) throws Exception {
+	private static int unlockAll(CommandContext<CommandSourceStack> ctx) throws CommandSyntaxException {
 		ServerPlayer target = player(ctx);
 		ProgressManager.unlockAll(target);
 		EventHooks.applyOriginState(target);
@@ -184,7 +185,7 @@ public final class ModCommands {
 		return 1;
 	}
 
-	private static int setLevel(CommandContext<CommandSourceStack> ctx) throws Exception {
+	private static int setLevel(CommandContext<CommandSourceStack> ctx) throws CommandSyntaxException {
 		ServerPlayer target = player(ctx);
 		Ability ability = resolveAbility(ctx);
 		if (ability == null) {
@@ -199,7 +200,7 @@ public final class ModCommands {
 		return 1;
 	}
 
-	private static int trialProgress(CommandContext<CommandSourceStack> ctx) throws Exception {
+	private static int trialProgress(CommandContext<CommandSourceStack> ctx) throws CommandSyntaxException {
 		ServerPlayer target = player(ctx);
 		Trial trial = resolveTrial(ctx);
 		if (trial == null) {
@@ -212,7 +213,7 @@ public final class ModCommands {
 		return 1;
 	}
 
-	private static int trialComplete(CommandContext<CommandSourceStack> ctx) throws Exception {
+	private static int trialComplete(CommandContext<CommandSourceStack> ctx) throws CommandSyntaxException {
 		ServerPlayer target = player(ctx);
 		Trial trial = resolveTrial(ctx);
 		if (trial == null) {
@@ -224,7 +225,7 @@ public final class ModCommands {
 		return 1;
 	}
 
-	private static int refillResources(CommandContext<CommandSourceStack> ctx) throws Exception {
+	private static int refillResources(CommandContext<CommandSourceStack> ctx) throws CommandSyntaxException {
 		ServerPlayer target = player(ctx);
 		PlayerRuntime rt = RuntimeManager.get(target);
 		rt.flightEnergy = FlightController.MAX_ENERGY;
@@ -236,7 +237,7 @@ public final class ModCommands {
 		return 1;
 	}
 
-	private static int resetCooldowns(CommandContext<CommandSourceStack> ctx) throws Exception {
+	private static int resetCooldowns(CommandContext<CommandSourceStack> ctx) throws CommandSyntaxException {
 		ServerPlayer target = player(ctx);
 		RuntimeManager.get(target).cooldownEnds.clear();
 		StateSync.sync(target);
@@ -244,7 +245,7 @@ public final class ModCommands {
 		return 1;
 	}
 
-	private static int resetProgress(CommandContext<CommandSourceStack> ctx) throws Exception {
+	private static int resetProgress(CommandContext<CommandSourceStack> ctx) throws CommandSyntaxException {
 		ServerPlayer target = player(ctx);
 		ProgressManager.reset(target);
 		ctx.getSource().sendSuccess(() -> Component.translatable("command.volunteera.reset.done",
@@ -252,7 +253,7 @@ public final class ModCommands {
 		return 1;
 	}
 
-	private static int testmode(CommandContext<CommandSourceStack> ctx, boolean on) throws Exception {
+	private static int testmode(CommandContext<CommandSourceStack> ctx, boolean on) throws CommandSyntaxException {
 		ServerPlayer target = player(ctx);
 		ProgressData data = ProgressData.get(target);
 		target.setAttached(dev.volunteera.progress.ProgressAttachments.PROGRESS, data.withTestMode(on));
