@@ -64,3 +64,41 @@ jobs:
         with:
           name: volunteera
           path: build/libs/*.jar
+
+  release:
+    runs-on: ubuntu-latest
+    needs: build
+    if: "${{ contains(github.event.head_commit.message, '[release]') }}"
+    permissions:
+      contents: write
+    steps:
+      - name: Download built jars
+        uses: actions/download-artifact@v4
+        with:
+          name: volunteera
+          path: dist
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: v0.1.0-mc26.2
+          name: "Volunteera 0.1.0 (Minecraft 26.2)"
+          body: |
+            Fabric mod for **Minecraft 26.2**.
+
+            ### Requirements
+            - Minecraft **26.2**
+            - Fabric Loader **>= 0.19.5**
+            - Fabric API (a recent 26.2 build)
+
+            ### Install
+            Drop the jar into your `mods` folder.
+
+            ### Contents
+            - 3 origins (Emberborn, Skyborne, Deepforge) with 30 unique abilities
+            - XP progression + 3 world-ability trials
+            - HUD + origins menu (O by default), 6 ability hotkey slots
+            - `/volunteera` admin & testing commands (permission level 2)
+          files: |
+            dist/*.jar
+          fail_on_unmatched_files: true
