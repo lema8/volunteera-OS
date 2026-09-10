@@ -28,14 +28,12 @@ jobs:
       - name: Build
         run: |
           set -o pipefail
-          ./gradlew build --stacktrace --no-daemon 2>&1 | tee build.log | grep -vE "^(Download|\s*$)" | tail -50
+          ./gradlew build --stacktrace --no-daemon 2>&1 | tee build.log | grep -vE "^(Download|\s*$)" | tail -40
 
-      - name: Report full javac error blocks as annotations
+      - name: Report javac error blocks as annotations
         if: failure()
         run: |
           python3 - <<'PYEOF'
-          import re
-
           log = open("build.log", encoding="utf-8", errors="replace").read()
           lines = log.splitlines()
           blocks = []
@@ -52,17 +50,11 @@ jobs:
                   i = j
               else:
                   i += 1
-          print(f"total error blocks: {len(blocks)}")
-          for b in blocks[:48]:
+          for b in blocks[:47]:
               msg = b.replace("%", "%25").replace("\r", "%0D").replace("\n", "%0A")
-              print(f"::error::{msg}")
-          # failure summary
-          for marker in ("FAILURE: Build failed", "What went wrong:", "* Exception is:"):
-              if marker in log:
-                  idx = lines.index(marker) if marker in lines else -1
-                  if idx >= 0:
-                      chunk = "\n".join(lines[idx:idx+25]).replace("%", "%25").replace("\n", "%0A")
-                      print(f"::error::{chunk[:3800]}")
+              print("::error::" + msg)
+          tail = "\n".join(lines[-60:])
+          print("::error::TAIL " + tail.replace("%", "%25").replace("\r", "%0D").replace("\n", "%0A")[:3800])
           PYEOF
 
       - name: Upload build artifacts
