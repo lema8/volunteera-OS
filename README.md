@@ -1,5 +1,8 @@
 # Volunteera: Origins & Abilities
 
+[![Build](https://github.com/lema8/volunteera-OS/actions/workflows/build.yml/badge.svg?branch=arena%2F01a08c98-volunteera-os)](https://github.com/lema8/volunteera-OS/actions/workflows/build.yml)
+[![Release](https://img.shields.io/github/v/release/lema8/volunteera-OS?include_prereleases&label=download)](https://github.com/lema8/volunteera-OS/releases)
+
 A polished, expandable **Origins & Abilities** framework for **Minecraft Java 26.2** (Fabric).
 
 Choose an origin, unlock unique abilities through XP progression and world trials,

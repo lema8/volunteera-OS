@@ -182,30 +182,33 @@ public final class ProgressManager {
 		}
 	}
 
-	/** Finds the ability gated by the trial and unlocks it. */
+	/** Unlocks every ability gated by the completed trial. */
 	private static void completeTrial(ServerPlayer player, Trial trial) {
 		ProgressData data = ProgressData.get(player);
-		Ability gated = null;
+		java.util.List<Ability> gated = new java.util.ArrayList<>();
 		for (Ability ability : Abilities.all()) {
-			if (ability.worldTrial() != null && ability.worldTrial().id().equals(trial.id())) {
-				gated = ability;
-				break;
+			if (ability.worldTrial() != null
+					&& ability.worldTrial().id().equals(trial.id())
+					&& !data.isWorldUnlocked(ability.id())) {
+				gated.add(ability);
 			}
 		}
-		if (gated == null) {
-			VolunteeraMod.LOGGER.warn("Trial {} completed but no ability references it", trial.id());
+		if (gated.isEmpty()) {
 			return;
 		}
-		if (data.isWorldUnlocked(gated.id())) {
-			return;
+		ProgressData updated = data;
+		for (Ability ability : gated) {
+			updated = updated.withWorldUnlocked(ability.id(), true);
 		}
-		player.setAttached(ProgressAttachments.PROGRESS, data.withWorldUnlocked(gated.id(), true));
+		player.setAttached(ProgressAttachments.PROGRESS, updated);
 		if (dev.volunteera.server.VanillaLookup.SND_ELDER != null) {
 			player.level().playSound(null, player.blockPosition(),
 					dev.volunteera.server.VanillaLookup.SND_ELDER.value(), SoundSource.PLAYERS, 0.5f, 1.6f);
 		}
-		player.sendSystemMessage(Component.translatable("message.volunteera.trial_complete",
-				Component.translatable(gated.nameKey())));
+		for (Ability ability : gated) {
+			player.sendSystemMessage(Component.translatable("message.volunteera.trial_complete",
+					Component.translatable(ability.nameKey())));
+		}
 		StateSync.sync(player);
 	}
 
