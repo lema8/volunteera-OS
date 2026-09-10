@@ -163,7 +163,7 @@ public final class EventHooks {
 				}
 			}
 		} catch (Exception e) {
-			VolunteeraMod.LOGGER.error("Failed to apply origin state for {}", player.getGameProfile().getName(), e);
+			VolunteeraMod.LOGGER.error("Failed to apply origin state for {}", player.getGameProfile().name(), e);
 		}
 	}
 

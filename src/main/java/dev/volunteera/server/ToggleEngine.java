@@ -65,7 +65,7 @@ public final class ToggleEngine {
 			try {
 				ability.toggleTick(player, ProgressManager.effectiveLevel(player, ability));
 			} catch (Exception e) {
-				VolunteeraMod.LOGGER.error("toggleTick({}) failed for {}", abilityId, player.getGameProfile().getName(), e);
+				VolunteeraMod.LOGGER.error("toggleTick({}) failed for {}", abilityId, player.getGameProfile().name(), e);
 				deactivate(player, rt, origin, ability, ProgressManager.effectiveLevel(player, ability), false);
 			}
 		}
@@ -81,7 +81,7 @@ public final class ToggleEngine {
 		try {
 			ability.deactivate(player, level);
 		} catch (Exception e) {
-			VolunteeraMod.LOGGER.error("deactivate({}) failed for {}", ability.id(), player.getGameProfile().getName(), e);
+			VolunteeraMod.LOGGER.error("deactivate({}) failed for {}", ability.id(), player.getGameProfile().name(), e);
 		}
 		if (announce && ability.kind() == dev.volunteera.api.AbilityKind.TOGGLE) {
 			player.connection.send(new net.minecraft.network.protocol.game.ClientboundSetActionBarTextPacket(

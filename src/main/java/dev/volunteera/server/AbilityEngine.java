@@ -88,7 +88,7 @@ public final class AbilityEngine {
 			result = ability.activate(player, level);
 		} catch (Exception e) {
 			dev.volunteera.VolunteeraMod.LOGGER.error("Ability {} threw during activation for {}",
-					abilityId, player.getGameProfile().getName(), e);
+					abilityId, player.getGameProfile().name(), e);
 			result = ActivationResult.fail(ActivationResult.FailureReason.UNAVAILABLE);
 		}
 		if (result == null || !result.success()) {

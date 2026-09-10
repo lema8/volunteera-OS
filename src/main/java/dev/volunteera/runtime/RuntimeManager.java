@@ -44,7 +44,7 @@ public final class RuntimeManager {
 				PassiveTicker.tick(player, rt);
 			}
 		} catch (Exception e) {
-			VolunteeraMod.LOGGER.error("Runtime tick failed for {}", player.getGameProfile().getName(), e);
+			VolunteeraMod.LOGGER.error("Runtime tick failed for {}", player.getGameProfile().name(), e);
 		}
 	}
 

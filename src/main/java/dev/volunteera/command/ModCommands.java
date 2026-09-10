@@ -181,7 +181,7 @@ public final class ModCommands {
 		ProgressManager.unlockAll(target);
 		EventHooks.applyOriginState(target);
 		StateSync.sync(target);
-		ctx.getSource().sendSuccess(() -> Component.translatable("command.volunteera.unlockall.done", target.getGameProfile().getName()), true);
+		ctx.getSource().sendSuccess(() -> Component.translatable("command.volunteera.unlockall.done", target.getGameProfile().name()), true);
 		return 1;
 	}
 
@@ -209,7 +209,7 @@ public final class ModCommands {
 		int amount = IntegerArgumentType.getInteger(ctx, "amount");
 		ProgressManager.setTrialProgress(target, trial, amount);
 		ctx.getSource().sendSuccess(() -> Component.translatable("command.volunteera.trial.set.done",
-				trial.id().getPath(), amount, target.getGameProfile().getName()), true);
+				trial.id().getPath(), amount, target.getGameProfile().name()), true);
 		return 1;
 	}
 
@@ -221,7 +221,7 @@ public final class ModCommands {
 		}
 		ProgressManager.setTrialProgress(target, trial, trial.maxProgress());
 		ctx.getSource().sendSuccess(() -> Component.translatable("command.volunteera.trial.complete.done",
-				trial.id().getPath(), target.getGameProfile().getName()), true);
+				trial.id().getPath(), target.getGameProfile().name()), true);
 		return 1;
 	}
 
@@ -249,7 +249,7 @@ public final class ModCommands {
 		ServerPlayer target = player(ctx);
 		ProgressManager.reset(target);
 		ctx.getSource().sendSuccess(() -> Component.translatable("command.volunteera.reset.done",
-				target.getGameProfile().getName()), true);
+				target.getGameProfile().name()), true);
 		return 1;
 	}
 
@@ -266,7 +266,7 @@ public final class ModCommands {
 		StateSync.sync(target);
 		ctx.getSource().sendSuccess(() -> Component.translatable(
 				on ? "command.volunteera.testmode.on" : "command.volunteera.testmode.off",
-				target.getGameProfile().getName()), true);
+				target.getGameProfile().name()), true);
 		return 1;
 	}
 

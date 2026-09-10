@@ -72,7 +72,7 @@ public final class Trials {
 				int updated = handler.onProgress(context, current);
 				ProgressManager.setTrialProgress(player, trial, updated);
 			} catch (Exception e) {
-				VolunteeraMod.LOGGER.error("Trial {} handler failed for {}", trial.id(), player.getGameProfile().getName(), e);
+				VolunteeraMod.LOGGER.error("Trial {} handler failed for {}", trial.id(), player.getGameProfile().name(), e);
 			}
 		}
 	}

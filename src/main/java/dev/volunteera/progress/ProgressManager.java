@@ -216,7 +216,7 @@ public final class ProgressManager {
 			try {
 				ability.applyPassives(player, level, apply);
 			} catch (Exception e) {
-				VolunteeraMod.LOGGER.error("applyPassives({}) failed for {} on {}", apply, ability.id(), player.getGameProfile().getName(), e);
+				VolunteeraMod.LOGGER.error("applyPassives({}) failed for {} on {}", apply, ability.id(), player.getGameProfile().name(), e);
 			}
 		}
 	}

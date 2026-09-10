@@ -113,7 +113,7 @@ public final class PlayerRuntime {
 				try {
 					ability.deactivate(player, dev.volunteera.progress.ProgressManager.effectiveLevel(player, ability));
 				} catch (Exception e) {
-					dev.volunteera.VolunteeraMod.LOGGER.error("Failed to deactivate {} for {}", abilityId, player.getGameProfile().getName(), e);
+					dev.volunteera.VolunteeraMod.LOGGER.error("Failed to deactivate {} for {}", abilityId, player.getGameProfile().name(), e);
 				}
 			}
 		}
