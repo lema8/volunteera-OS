@@ -39,6 +39,10 @@ jobs:
           print("::error::DEBUG build.log exists=" + str(os.path.exists("build.log")))
           log = open("build.log", encoding="utf-8", errors="replace").read()
           print("::error::DEBUG log lines=" + str(len(log.splitlines())))
+          errlines = [l for l in log.splitlines() if "error" in l.lower()]
+          print("::error::DEBUG errlines=" + str(len(errlines)))
+          for sample in errlines[:8]:
+              print("::error::SAMPLE " + sample[:280])
           lines = log.splitlines()
           blocks = []
           i = 0
