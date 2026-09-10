@@ -1,0 +1,34 @@
+{
+	"schemaVersion": 1,
+	"id": "volunteera",
+	"version": "${version}",
+	"name": "Volunteera: Origins & Abilities",
+	"description": "A polished, expandable Origins & Abilities system. Choose an origin, unlock unique abilities through progression and world trials, and watch your power grow.",
+	"authors": [
+		"Volunteera Team"
+	],
+	"contact": {
+		"homepage": "https://github.com/lema8/volunteera-OS",
+		"sources": "https://github.com/lema8/volunteera-OS"
+	},
+	"license": "MIT",
+	"icon": "assets/volunteera/icon.png",
+	"environment": "*",
+	"entrypoints": {
+		"main": [
+			"dev.volunteera.VolunteeraMod"
+		],
+		"client": [
+			"dev.volunteera.client.VolunteeraClient"
+		]
+	},
+	"mixins": [
+		"volunteera.mixins.json"
+	],
+	"depends": {
+		"fabricloader": ">=0.19.5",
+		"minecraft": "~26.2",
+		"java": ">=25",
+		"fabric-api": "*"
+	}
+}
