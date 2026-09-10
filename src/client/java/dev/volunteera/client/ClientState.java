@@ -40,8 +40,16 @@ public final class ClientState {
 
 	public static void update(Payloads.SyncStatePayload payload) {
 		originId = payload.originId();
-		abilities = List.copyOf(payload.abilities());
-		trials = List.copyOf(payload.trials());
+		List<AbilityView> abilityViews = new ArrayList<>();
+		for (Payloads.AbilityState a : payload.abilities()) {
+			abilityViews.add(new AbilityView(a.id(), a.level(), a.active(), a.cooldownTicks()));
+		}
+		abilities = List.copyOf(abilityViews);
+		List<TrialView> trialViews = new ArrayList<>();
+		for (Payloads.TrialState t : payload.trials()) {
+			trialViews.add(new TrialView(t.id(), t.progress(), t.target()));
+		}
+		trials = List.copyOf(trialViews);
 		flightEnergy = Mth.clamp(payload.flightEnergy(), 0.0f, 100.0f);
 		flightPhase = payload.flightPhase();
 		windCharges = payload.windCharges();

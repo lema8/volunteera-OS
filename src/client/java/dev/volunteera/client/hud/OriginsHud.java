@@ -63,7 +63,7 @@ public final class OriginsHud {
 			if (bound == null) {
 				continue;
 			}
-			Payloads.AbilityState view = null;
+			ClientState.AbilityView view = null;
 			for (var a : abilities) {
 				if (a.id().equals(bound)) {
 					view = a;
@@ -85,7 +85,7 @@ public final class OriginsHud {
 	}
 
 	private static void drawChip(GuiGraphicsExtractor g, Font font, int x, int y, int slot,
-			Ability ability, Payloads.AbilityState view) {
+			Ability ability, ClientState.AbilityView view) {
 		int bg = 0x99000000;
 		if (view.active()) {
 			bg = 0x992A6A2A; // active toggle: green tint

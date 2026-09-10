@@ -27,7 +27,7 @@ public class VolunteeraClient implements ClientModInitializer {
 				return;
 			}
 			while (Keybinds.MENU.consumeClick()) {
-				if (client.screen == null) {
+				if (client.gui.screen() == null) {
 					client.gui.setScreen(new OriginsScreen());
 				}
 			}
