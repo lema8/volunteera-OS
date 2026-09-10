@@ -34,7 +34,11 @@ jobs:
         if: failure()
         run: |
           python3 - <<'PYEOF'
+          print("::error::DEBUG python annotation step running")
+          import os
+          print("::error::DEBUG build.log exists=" + str(os.path.exists("build.log")))
           log = open("build.log", encoding="utf-8", errors="replace").read()
+          print("::error::DEBUG log lines=" + str(len(log.splitlines())))
           lines = log.splitlines()
           blocks = []
           i = 0
