@@ -94,7 +94,7 @@ public final class EmberbornContent {
 	}
 
 	private static boolean doused(ServerPlayer player) {
-		return runtime.dousedTicks > 0;
+		return RuntimeManager.get(player).dousedTicks > 0;
 	}
 
 	// ------------------------------------------------------------- abilities

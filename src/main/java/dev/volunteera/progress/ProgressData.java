@@ -35,7 +35,7 @@ public record ProgressData(
 			Codec.unboundedMap(Identifier.CODEC, Codec.BOOL).optionalFieldOf("unlocked_world", Map.of()).forGetter(ProgressData::unlockedWorld),
 			Codec.BOOL.optionalFieldOf("test_mode", false).forGetter(ProgressData::testMode))
 			.apply(instance, (origin, levels, trials, world, testMode) ->
-					new ProgressData(origin.orElse(null), levels, trials, world, testMode)));
+					new ProgressData(origin, levels, trials, world, testMode)));
 
 	public static ProgressData get(net.minecraft.server.level.ServerPlayer player) {
 		ProgressData data = player.getAttached(ProgressAttachments.PROGRESS);
