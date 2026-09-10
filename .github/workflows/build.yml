@@ -9,6 +9,9 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    if: ${{ !(startsWith(github.event.head_commit.message, 'ci: logs')) }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -25,18 +28,18 @@ jobs:
       - name: Build
         run: |
           set -o pipefail
-          ./gradlew build --stacktrace --no-daemon 2>&1 | tee build.log | grep -vE "^(Download|\s*$)" | tail -60
+          ./gradlew build --stacktrace --no-daemon 2>&1 | tee build.log | grep -vE "^(Download|\s*$)" | tail -50
 
-      - name: Report compile errors as annotations
+      - name: Save build log to branch
         if: failure()
         run: |
-          if [ -f build.log ]; then
-            grep -E "(error: |  symbol:|  location:|warning: \[removal\]|FAILURE|What went wrong|Caused by:|> Task .* FAILED)" build.log | head -100 | while IFS= read -r line; do
-              echo "::error::${line:0:3800}"
-            done
-            echo "### Tail of build log:" >> "$GITHUB_STEP_SUMMARY"
-            tail -80 build.log >> "$GITHUB_STEP_SUMMARY"
-          fi
+          git config user.name "ci-log-bot"
+          git config user.email "ci-log-bot@users.noreply.github.com"
+          mkdir -p ci-logs
+          cp build.log ci-logs/build.log
+          git add ci-logs/build.log
+          git commit -m "ci: logs for ${{ github.sha }}"
+          git push
 
       - name: Upload build artifacts
         if: success()
