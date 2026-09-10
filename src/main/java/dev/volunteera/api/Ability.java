@@ -3,7 +3,7 @@ package dev.volunteera.api;
 import java.util.EnumSet;
 import java.util.List;
 
-import javax.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 
 import net.minecraft.server.level.ServerPlayer;
 

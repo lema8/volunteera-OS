@@ -3,7 +3,7 @@ package dev.volunteera.api;
 import java.util.Locale;
 
 import net.minecraft.world.item.Item;
-import javax.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * A resource cost for using an ability. Uses Minecraft's real systems:

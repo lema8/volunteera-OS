@@ -1,6 +1,6 @@
 package dev.volunteera.api;
 
-import javax.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Result of an ability activation attempt. On failure carries a reason and an

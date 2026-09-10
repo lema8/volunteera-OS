@@ -10,7 +10,7 @@ import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 
 import dev.volunteera.VolunteeraMod;
-import javax.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Resolves vanilla attribute and effect holders through the stable registries
