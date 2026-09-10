@@ -1,5 +1,6 @@
 package dev.volunteera.api;
 
+import net.minecraft.resources.Identifier;
 import org.jspecify.annotations.Nullable;
 
 import net.minecraft.core.BlockPos;

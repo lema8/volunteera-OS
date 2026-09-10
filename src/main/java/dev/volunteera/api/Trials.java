@@ -1,5 +1,6 @@
 package dev.volunteera.api;
 
+import net.minecraft.resources.Identifier;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.LinkedHashMap;

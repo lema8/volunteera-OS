@@ -1,5 +1,6 @@
 package dev.volunteera.api;
 
+import net.minecraft.resources.Identifier;
 import java.util.EnumSet;
 import java.util.List;
 
