@@ -73,9 +73,9 @@ public final class SkyborneContent {
 
 		// Profile: fragile frame, quick feet.
 		OriginAttributes.registerProfile(origin, java.util.List.of(
-				new OriginAttributes.ModSpec(SkyborneContent.id("skyborne_frame"), VanillaLookup.attrHolder("generic.max_health", "max_health"), -2.0,
+				new OriginAttributes.ModSpec(SkyborneContent.id("skyborne_frame"), VanillaLookup.attrHolder("max_health", "generic.max_health"), -2.0,
 						AttributeModifier.Operation.ADD_VALUE, null),
-				new OriginAttributes.ModSpec(SkyborneContent.id("skyborne_grace"), VanillaLookup.attrHolder("generic.movement_speed", "movement_speed"), 0.02,
+				new OriginAttributes.ModSpec(SkyborneContent.id("skyborne_grace"), VanillaLookup.attrHolder("movement_speed", "generic.movement_speed"), 0.02,
 						AttributeModifier.Operation.ADD_VALUE, null)));
 
 		Origins.register(origin);
@@ -107,7 +107,7 @@ public final class SkyborneContent {
 					default -> 0.07;
 				};
 				return new OriginAttributes.ModSpec(SkyborneContent.id("skyborne_tailwind_mod"),
-						VanillaLookup.attrHolder("generic.movement_speed", "movement_speed"), amount,
+						VanillaLookup.attrHolder("movement_speed", "generic.movement_speed"), amount,
 						AttributeModifier.Operation.ADD_VALUE, null);
 			}
 		};

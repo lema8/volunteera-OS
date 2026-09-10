@@ -82,7 +82,7 @@ public final class EmberbornContent {
 		// Emberborn profile: slightly tougher than baseline (the weakness is
 		// water, not frailty).
 		OriginAttributes.registerProfile(origin, java.util.List.of(
-				new OriginAttributes.ModSpec(EmberbornContent.id("emberborn_vitality"), VanillaLookup.attrHolder("generic.max_health", "max_health"), 2.0,
+				new OriginAttributes.ModSpec(EmberbornContent.id("emberborn_vitality"), VanillaLookup.attrHolder("max_health", "generic.max_health"), 2.0,
 						AttributeModifier.Operation.ADD_VALUE, null)));
 
 		Origins.register(origin);

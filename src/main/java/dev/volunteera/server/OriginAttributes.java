@@ -89,7 +89,7 @@ public final class OriginAttributes {
 		}
 		// Replace (not accumulate) if already present.
 		instance.removeModifier(spec.modId());
-		instance.addTransient(new AttributeModifier(spec.modId(), spec.amount(), spec.operation()));
+		instance.addTransientModifier(new AttributeModifier(spec.modId(), spec.amount(), spec.operation()));
 	}
 
 	public static void remove(ServerPlayer player, Identifier modId, Holder<Attribute> attribute) {
@@ -114,7 +114,7 @@ public final class OriginAttributes {
 		boolean shouldApply = spec.toolCondition() != null && heldTool.is(spec.toolCondition());
 		boolean present = instance.hasModifier(spec.modId());
 		if (shouldApply && !present) {
-			instance.addTransient(new AttributeModifier(spec.modId(), spec.amount(), spec.operation()));
+			instance.addTransientModifier(new AttributeModifier(spec.modId(), spec.amount(), spec.operation()));
 		} else if (!shouldApply && present) {
 			instance.removeModifier(spec.modId());
 		}

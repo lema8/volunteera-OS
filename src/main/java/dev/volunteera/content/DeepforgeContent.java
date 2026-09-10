@@ -104,7 +104,7 @@ public final class DeepforgeContent {
 						AttributeModifier.Operation.ADD_MULTIPLIED_BASE, null),
 				new OriginAttributes.ModSpec(DeepforgeContent.id("deepforge_reach"), VanillaLookup.BLOCK_INTERACTION_RANGE, -0.5,
 						AttributeModifier.Operation.ADD_VALUE, null),
-				new OriginAttributes.ModSpec(DeepforgeContent.id("deepforge_squat"), VanillaLookup.attrHolder("generic.movement_speed", "movement_speed"), -0.015,
+				new OriginAttributes.ModSpec(DeepforgeContent.id("deepforge_squat"), VanillaLookup.attrHolder("movement_speed", "generic.movement_speed"), -0.015,
 						AttributeModifier.Operation.ADD_VALUE, null)));
 
 		Origins.register(origin);
@@ -176,10 +176,10 @@ public final class DeepforgeContent {
 			@Override
 			public void applyPassives(ServerPlayer player, int level, boolean apply) {
 				OriginAttributes.apply(player, new OriginAttributes.ModSpec(DeepforgeContent.id("deepforge_stone_hp"),
-						VanillaLookup.attrHolder("generic.max_health", "max_health"), level >= 2 ? 8.0 : 6.0,
+						VanillaLookup.attrHolder("max_health", "generic.max_health"), level >= 2 ? 8.0 : 6.0,
 						AttributeModifier.Operation.ADD_VALUE, null), apply);
 				OriginAttributes.apply(player, new OriginAttributes.ModSpec(DeepforgeContent.id("deepforge_stone_kb"),
-						VanillaLookup.attrHolder("generic.knockback_resistance", "knockback_resistance"),
+						VanillaLookup.attrHolder("knockback_resistance", "generic.knockback_resistance"),
 						level >= 2 ? 0.4 : 0.2, AttributeModifier.Operation.ADD_VALUE, null), apply);
 			}
 		};

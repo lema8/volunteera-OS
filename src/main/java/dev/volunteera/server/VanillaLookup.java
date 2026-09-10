@@ -76,11 +76,11 @@ public final class VanillaLookup {
 	}
 
 	public static void init() {
-		SCALE = attribute("generic.scale", "scale");
-		BLOCK_BREAK_SPEED = attribute("player.block_break_speed", "generic.block_break_speed", "block_break_speed");
-		ATTACK_KNOCKBACK = attribute("generic.attack_knockback", "attack_knockback");
-		ARROW_DAMAGE = attribute("generic.arrow_damage", "arrow_damage");
-		BLOCK_INTERACTION_RANGE = attribute("player.block_interaction_range", "generic.block_interaction_range", "block_interaction_range");
+		SCALE = attribute("scale", "generic.scale");
+		BLOCK_BREAK_SPEED = attribute("block_break_speed", "player.block_break_speed", "generic.block_break_speed");
+		ATTACK_KNOCKBACK = attribute("attack_knockback", "generic.attack_knockback");
+		ARROW_DAMAGE = attribute("arrow_damage", "generic.arrow_damage");
+		BLOCK_INTERACTION_RANGE = attribute("block_interaction_range", "player.block_interaction_range", "generic.block_interaction_range");
 
 		NIGHT_VISION = effect("night_vision");
 		FIRE_RESISTANCE = effect("fire_resistance");
