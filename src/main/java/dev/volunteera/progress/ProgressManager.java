@@ -6,6 +6,7 @@ import java.util.Map;
 import org.jspecify.annotations.Nullable;
 
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundSource;
 

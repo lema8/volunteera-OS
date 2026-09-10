@@ -3,6 +3,7 @@ package dev.volunteera.server;
 import java.util.List;
 import java.util.function.Predicate;
 
+import net.minecraft.core.Holder;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
