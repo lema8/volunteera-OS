@@ -181,6 +181,9 @@ async function startSearch() {
   results.update([], []);
   document.getElementById('results-empty').style.display = 'none';
   setSearchingUI(true);
+  progressFill.classList.add('indeterminate');
+  progressFill.style.width = '35%';
+  progressCaption.textContent = 'Starting search workers…';
   searchStartInfo = {
     ts: Date.now(),
     modeLabel: mode,
@@ -191,6 +194,10 @@ async function startSearch() {
     await runner.start(params);
   } catch (e) {
     setSearchingUI(false);
+    searchStartInfo = null;
+    progressFill.classList.remove('indeterminate');
+    progressFill.style.width = '0%';
+    progressCaption.textContent = '⚠ Search failed to start: ' + e.message;
     toast('⚠ ' + e.message);
   }
 }
@@ -269,7 +276,7 @@ async function onState(state) {
   if (state === 'idle' && searchStartInfo) {
     setSearchingUI(false);
     results.update(runner.matches, runner.partials);
-    saveHistory();
+    if (runner.totalChecked > 0) saveHistory();
     searchStartInfo = null;
   }
 }

@@ -51,20 +51,40 @@ export class SearchRunner {
     const n = Math.max(1, this.settings.workers | 0);
     this.workers = [];
     let ready = 0;
-    await new Promise((resolve, reject) => {
-      for (let i = 0; i < n; i++) {
-        const w = new Worker(WORKER_URL, { type: 'module' });
-        w._busy = false;
-        w._idx = i;
-        w.onmessage = (e) => this._onWorkerMsg(w, e.data, () => {
-          ready++;
-          if (ready === n) resolve();
-        });
-        w.onerror = (e) => reject(new Error('Worker failed: ' + e.message));
-        w.postMessage({ type: 'init' });
-        this.workers.push(w);
-      }
-    });
+    try {
+      await new Promise((resolve, reject) => {
+        const timer = setTimeout(() =>
+          reject(new Error('Search workers did not start in time (engine download stalled?). Try reloading.')), 20000);
+        for (let i = 0; i < n; i++) {
+          const w = new Worker(WORKER_URL, { type: 'module' });
+          w._busy = false;
+          w._idx = i;
+          w.onmessage = (e) => {
+            if (e.data?.type === 'error') {
+              clearTimeout(timer);
+              reject(new Error('Search worker failed: ' + e.data.message));
+              return;
+            }
+            this._onWorkerMsg(w, e.data, () => {
+              ready++;
+              if (ready === n) { clearTimeout(timer); resolve(); }
+            });
+          };
+          w.onerror = (e) => {
+            clearTimeout(timer);
+            reject(new Error('Worker script failed to load: ' + (e.message || 'unknown error')));
+          };
+          w.postMessage({ type: 'init' });
+          this.workers.push(w);
+        }
+      });
+    } catch (err) {
+      for (const w of this.workers) { try { w.terminate(); } catch {} }
+      this.workers = [];
+      this.state = 'idle';
+      this._onState?.('idle');
+      throw err;
+    }
 
     this.state = 'running';
     onState?.('running');
@@ -191,10 +211,12 @@ export class SearchRunner {
   }
 
   stop() {
-    if (this.state !== 'running') return;
+    if (this.state !== 'running' && this.state !== 'starting') return;
     this.state = 'stopping';
     this._onState?.('stopping');
-    for (const w of this.workers) w.postMessage({ type: 'stop-current' });
+    for (const w of this.workers) {
+      try { w.postMessage({ type: 'stop-current' }); } catch {}
+    }
     /* safety: finalize even if workers go quiet */
     setTimeout(() => { if (this.state === 'stopping') this._finish(); }, 4000);
   }

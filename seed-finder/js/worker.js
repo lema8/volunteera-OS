@@ -57,8 +57,11 @@ function runJob(job) {
   };
 
   let checked = 0;
+  let reported = 0;
   const report = (done) => {
-    self.postMessage({ type: 'progress', checked, partials: partials.splice(0), done });
+    const delta = checked - reported;
+    reported = checked;
+    self.postMessage({ type: 'progress', checked: delta, partials: partials.splice(0), done });
   };
 
   const emitVerified = (seedStr, hi, lo, res) => {
