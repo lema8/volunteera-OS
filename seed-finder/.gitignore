@@ -1,0 +1,8 @@
+# native build artifacts (rebuild via engine/tests.sh)
+engine/sl_test
+engine/sl_bench
+engine/sl_dump
+engine/*.o
+engine/*.a
+__pycache__/
+engine/sl_test_dbg

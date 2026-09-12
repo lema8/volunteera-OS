@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Fast Minecraft Java 26.2 seed finder — describe the world you want and search millions of seeds right in your browser.">
+<title>Seed Lab — Minecraft Java 26.2 Seed Finder</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⛰️</text></svg>">
+<link rel="stylesheet" href="styles.css">
+<link rel="preload" href="wasm/seedlab.wasm" as="fetch" crossorigin>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="brand">
+    <span class="logo">⛰️</span>
+    <div class="brand-text">
+      <strong>Seed Lab</strong>
+      <span class="brand-sub">Minecraft Java <span id="mc-version-label">26.2</span> · Chaos Cubed</span>
+    </div>
+  </div>
+  <nav class="topnav">
+    <button id="btn-presets" class="ghost">Presets</button>
+    <button id="btn-ai" class="ghost">✨ AI search</button>
+    <button id="btn-history" class="ghost">History</button>
+    <button id="btn-settings" class="ghost">Settings</button>
+  </nav>
+</header>
+
+<div id="version-warning" class="banner hidden"></div>
+
+<main class="layout">
+
+  <!-- ===================== LEFT: search + conditions ===================== -->
+  <aside class="col-left">
+
+    <section class="card" id="search-card">
+      <h2>Find your seed</h2>
+
+      <div class="mode-pills" id="mode-pills">
+        <button data-mode="count" class="active">Search X seeds</button>
+        <button data-mode="infinite">Until a match</button>
+        <button data-mode="random">Random seeds</button>
+        <button data-mode="range">Seed range</button>
+        <button data-mode="specific">Specific seed</button>
+      </div>
+
+      <div class="mode-inputs">
+        <div id="mi-count" class="mode-input">
+          <label>Seeds to search</label>
+          <input type="text" id="in-count" value="1,000,000" inputmode="numeric">
+          <div class="quick-amounts">
+            <button data-n="10000">10k</button>
+            <button data-n="100000">100k</button>
+            <button data-n="1000000">1M</button>
+            <button data-n="10000000">10M</button>
+          </div>
+        </div>
+        <div id="mi-infinite" class="mode-input hidden">
+          <p class="hint">Searching until a seed matches your conditions…</p>
+        </div>
+        <div id="mi-random" class="mode-input hidden">
+          <label>Random seeds to try (blank = until a match)</label>
+          <input type="text" id="in-random-count" value="1,000,000" inputmode="numeric">
+        </div>
+        <div id="mi-range" class="mode-input hidden">
+          <label>From seed</label>
+          <input type="text" id="in-range-from" value="0" inputmode="numeric">
+          <label>To seed</label>
+          <input type="text" id="in-range-to" value="1000000" inputmode="numeric">
+        </div>
+        <div id="mi-specific" class="mode-input hidden">
+          <label>Seed(s) — comma separated, or a text seed</label>
+          <input type="text" id="in-specific" placeholder="e.g. 12345  or  &quot;my world name&quot;">
+        </div>
+      </div>
+
+      <div class="search-buttons">
+        <button id="btn-find" class="primary big">🔎 FIND SEED</button>
+        <button id="btn-stop" class="danger big" disabled>⏹ STOP</button>
+      </div>
+      <p class="hint" id="search-hint">Everything runs locally in your browser — no account, no server.</p>
+    </section>
+
+    <section class="card" id="conditions-card">
+      <div class="card-head">
+        <h2>Conditions</h2>
+        <button id="btn-clear-conds" class="ghost small">Clear all</button>
+      </div>
+
+      <div id="conditions-list" class="conditions-list">
+        <p class="empty-hint" id="conditions-empty">
+          No conditions yet.<br>Add a structure or biome below,<br>or pick a <button class="linklike" id="open-presets-hint">preset</button>.
+        </p>
+      </div>
+
+      <div class="add-row">
+        <select id="add-structure-select" aria-label="Structure type"></select>
+        <button id="btn-add-structure" class="secondary">+ Add</button>
+      </div>
+      <div class="add-row">
+        <button id="btn-add-spawn-biome" class="secondary wide">🌍 Spawn biome…</button>
+        <button id="btn-add-biome-area" class="secondary wide">🗺️ Biome nearby…</button>
+      </div>
+      <div class="add-row">
+        <button id="btn-add-or" class="secondary wide">🔀 OR group (A or B or …)</button>
+      </div>
+    </section>
+
+    <section class="card collapsible" id="advanced-card">
+      <button class="card-head collapse-toggle" id="advanced-toggle">
+        <h2>Advanced settings</h2><span class="chev">▾</span>
+      </button>
+      <div class="collapse-body hidden" id="advanced-body">
+        <label>Search workers
+          <input type="number" id="set-workers" min="1" max="32">
+        </label>
+        <label>Seeds per work chunk
+          <input type="number" id="set-chunk" min="128" max="16384" step="128">
+        </label>
+        <label class="checkbox-row">
+          <input type="checkbox" id="set-stop-first" checked>
+          Stop at the first perfect match
+        </label>
+        <div class="bench-row">
+          <button id="btn-benchmark" class="secondary small">Benchmark engine</button>
+          <span id="bench-result" class="hint"></span>
+        </div>
+        <details class="accuracy-notes">
+          <summary>Accuracy &amp; what's verified</summary>
+          <ul>
+            <li><strong>Exact:</strong> structure &amp; stronghold placement, village biomes, biome layout — computed with the 26.2 world-generation rules (cubiomes).</li>
+            <li><strong>Estimated:</strong> world spawn (vanilla biome-fitness algorithm, before the terrain/grass height check) and biome-area distances (±4 blocks).</li>
+            <li><strong>Heuristic:</strong> desert pyramid / jungle temple / mansion surface-height requirements are approximated; such spots are flagged.</li>
+            <li><strong>Cannot be verified by fast search</strong> (marked in the UI, never claimed as fact): village blacksmiths, End-portal frame eyes, exact Y coordinates.</li>
+          </ul>
+        </details>
+      </div>
+    </section>
+
+  </aside>
+
+  <!-- ===================== CENTER: status + results ===================== -->
+  <section class="col-center">
+
+    <section class="card" id="status-card">
+      <div class="stats-grid">
+        <div class="stat">
+          <span class="stat-label">Seeds searched</span>
+          <span class="stat-value" id="st-checked">0</span>
+        </div>
+        <div class="stat">
+          <span class="stat-label">Speed</span>
+          <span class="stat-value"><span id="st-rate">0</span><small> /s</small></span>
+        </div>
+        <div class="stat">
+          <span class="stat-label">Elapsed</span>
+          <span class="stat-value" id="st-elapsed">00:00:00</span>
+        </div>
+        <div class="stat">
+          <span class="stat-label">Seeds found</span>
+          <span class="stat-value accent" id="st-matches">0</span>
+        </div>
+        <div class="stat">
+          <span class="stat-label">Best match</span>
+          <span class="stat-value accent" id="st-best">—</span>
+        </div>
+      </div>
+      <div class="progress-wrap">
+        <div class="progress-bar"><div id="progress-fill"></div></div>
+        <div class="progress-caption" id="progress-caption">Ready.</div>
+      </div>
+    </section>
+
+    <section class="card" id="results-card">
+      <div class="card-head">
+        <h2>Results</h2>
+        <div class="export-buttons" id="export-buttons">
+          <button class="ghost small" data-export="json">JSON</button>
+          <button class="ghost small" data-export="csv">CSV</button>
+          <button class="ghost small" data-export="txt">TXT</button>
+        </div>
+      </div>
+      <div id="results-list">
+        <p class="empty-hint" id="results-empty">
+          Nothing found yet — configure conditions and press <strong>FIND SEED</strong>.
+          Near-misses will show up here while the search runs.
+        </p>
+      </div>
+    </section>
+
+  </section>
+
+  <!-- ===================== RIGHT: seed detail + map ===================== -->
+  <aside class="col-right">
+    <section class="card sticky" id="detail-card">
+      <div id="detail-placeholder" class="empty-hint">
+        Select a result to inspect it:<br>exact coordinates, teleport commands<br>and a map of everything found.
+      </div>
+      <div id="detail-body" class="hidden"></div>
+    </section>
+  </aside>
+
+</main>
+
+<!-- ===================== MODALS ===================== -->
+
+<div class="modal-backdrop hidden" id="modal-presets">
+  <div class="modal">
+    <div class="modal-head"><h2>Search presets</h2><button class="modal-close">✕</button></div>
+    <p class="hint">Presets simply fill in the condition builder — edit anything you like before searching.</p>
+    <div id="preset-list" class="preset-list"></div>
+  </div>
+</div>
+
+<div class="modal-backdrop hidden" id="modal-biomes">
+  <div class="modal">
+    <div class="modal-head"><h2 id="biome-picker-title">Choose biomes</h2><button class="modal-close">✕</button></div>
+    <input type="text" id="biome-search" class="wide" placeholder="Search biomes…">
+    <div id="biome-groups" class="biome-groups"></div>
+    <div class="modal-actions">
+      <button class="ghost" id="biome-clear">Clear</button>
+      <button class="primary" id="biome-ok">Done</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-backdrop hidden" id="modal-ai">
+  <div class="modal">
+    <div class="modal-head"><h2>✨ AI search assistant</h2><button class="modal-close">✕</button></div>
+    <p class="hint">Optional. Describe the seed you want in plain language — the AI converts it into
+      structured conditions you can review and edit. <strong>The AI never starts a search by itself.</strong>
+      Your API key is stored only in this browser and sent only to the provider you choose.</p>
+
+    <label>Provider
+      <select id="ai-provider">
+        <option value="openrouter">OpenRouter</option>
+        <option value="custom">Custom OpenAI-compatible API</option>
+      </select>
+    </label>
+    <label id="ai-base-row" class="hidden">Base URL
+      <input type="text" id="ai-base-url" placeholder="https://api.example.com/v1">
+    </label>
+    <label>API key
+      <input type="password" id="ai-key" placeholder="sk-…" autocomplete="off">
+    </label>
+    <label>Model
+      <input type="text" id="ai-model" placeholder="openai/gpt-4o-mini">
+    </label>
+
+    <label>Tell the AI what kind of seed you want…
+      <textarea id="ai-prompt" rows="4" placeholder="e.g. I want three villages close to spawn, preferably with blacksmiths. An ancient city nearby and a stronghold within 2000 blocks. Spawn in a plains biome."></textarea>
+    </label>
+
+    <div class="modal-actions">
+      <button class="primary" id="ai-generate">Generate conditions</button>
+      <span id="ai-status" class="hint"></span>
+    </div>
+
+    <div id="ai-preview" class="hidden">
+      <h3>AI generated search</h3>
+      <ul id="ai-preview-list"></ul>
+      <p class="hint" id="ai-notes"></p>
+      <div class="modal-actions">
+        <button class="secondary" id="ai-apply">Use these conditions</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal-backdrop hidden" id="modal-history">
+  <div class="modal">
+    <div class="modal-head"><h2>Search history</h2><button class="modal-close">✕</button></div>
+    <div id="history-list"></div>
+    <div class="modal-actions"><button class="ghost small" id="history-clear">Clear history</button></div>
+  </div>
+</div>
+
+<div class="modal-backdrop hidden" id="modal-settings">
+  <div class="modal">
+    <div class="modal-head"><h2>Settings</h2><button class="modal-close">✕</button></div>
+    <p class="hint">Search performance options live in “Advanced settings” on the main screen.
+      Everything below is stored only in your browser.</p>
+    <label class="checkbox-row">
+      <input type="checkbox" id="set-debug">
+      Show debug information in the browser console
+    </label>
+    <label>Default seed for sequential searches
+      <input type="text" id="set-default-start" value="0">
+    </label>
+    <p class="hint">Engine: <span id="engine-info">…</span></p>
+  </div>
+</div>
+
+<div id="toast" class="toast hidden"></div>
+
+<script type="module" src="js/app.js"></script>
+</body>
+</html>
