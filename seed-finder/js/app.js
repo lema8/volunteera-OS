@@ -205,12 +205,22 @@ const stBest = document.getElementById('st-best');
 const progressFill = document.getElementById('progress-fill');
 const progressCaption = document.getElementById('progress-caption');
 
+let lastBoardKey = '';
+
 function updateStats(s) {
   stChecked.textContent = fmt(s.checked);
   stRate.textContent = fmt(s.rate);
   stElapsed.textContent = fmtTime(s.elapsed);
   stMatches.textContent = s.matches;
   stBest.textContent = s.bestScore ? s.bestScore + '%' : '—';
+
+  /* live leaderboard refresh (only when it actually changed) */
+  const key = runner.matches.length + '|' +
+    runner.partials.slice(0, 5).map(p => p.seed + p.score).join(',');
+  if (key !== lastBoardKey && (runner.matches.length || runner.partials.length)) {
+    lastBoardKey = key;
+    results.update(runner.matches, runner.partials);
+  }
 
   const isFinite = mode === 'count' || mode === 'range' || (mode === 'random' && Number.isFinite(currentCount()));
   if (isFinite && s.mode !== 'idle') {
