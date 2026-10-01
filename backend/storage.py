@@ -146,10 +146,25 @@ def resolve_project_file(path: Path, relative: str) -> Path:
     return resolved
 
 
-def next_version_id(project: dict[str, Any]) -> str:
-    values = []
+def next_version_id(project: dict[str, Any], path: Path | None = None) -> str:
+    """Return an unused immutable version ID.
+
+    Project metadata only contains completed versions. A failed/interrupted render can
+    still leave a version directory behind, so disk state must also participate in ID
+    allocation. Existing directories are preserved and the next number is selected.
+    """
+    values: list[int] = []
     for version in project.get("versions", []):
         match = re.fullmatch(r"v(\d+)", version.get("id", ""))
         if match:
             values.append(int(match.group(1)))
+    if path is not None:
+        versions_dir = path / "versions"
+        if versions_dir.exists():
+            for candidate in versions_dir.iterdir():
+                if not candidate.is_dir():
+                    continue
+                match = re.fullmatch(r"v(\d+)", candidate.name)
+                if match:
+                    values.append(int(match.group(1)))
     return f"v{(max(values, default=0) + 1):03d}"

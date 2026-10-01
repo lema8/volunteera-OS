@@ -7,7 +7,7 @@ from pathlib import Path
 
 from backend.ai_client import AIError, deterministic_plan, validate_plan_for_project
 from backend.schemas import EditingPlan
-from backend.storage import safe_filename, write_json
+from backend.storage import next_version_id, safe_filename, write_json
 
 
 class EditingPlanTests(unittest.TestCase):
@@ -77,6 +77,16 @@ class EditingPlanTests(unittest.TestCase):
 class StorageTests(unittest.TestCase):
     def test_filename_removes_path_and_shell_characters(self):
         self.assertEqual(safe_filename("../../my; clip $(bad).MP4"), "my_ clip _bad_.mp4")
+
+    def test_next_version_skips_interrupted_render_directories(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            (root / "versions" / "v001" / "work").mkdir(parents=True)
+            project = {"versions": []}
+            self.assertEqual(next_version_id(project, root), "v002")
+            (root / "versions" / "v004").mkdir()
+            project["versions"] = [{"id": "v003"}]
+            self.assertEqual(next_version_id(project, root), "v005")
 
 
 if __name__ == "__main__":

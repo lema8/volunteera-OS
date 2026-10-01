@@ -252,6 +252,7 @@ The core tests cover local plan generation, caption mapping, clip-order rejectio
 ## Troubleshooting
 
 - **`pydantic-core` fails to build on Python 3.14:** pull the latest branch and confirm `requirements.txt` uses `pydantic==2.12.5`. Remove the partially created `.venv`, create it again, upgrade pip, and reinstall. This version has a prebuilt CPython 3.14 wheel and does not require a local Rust build.
+- **A render was interrupted and left `versions/v001/` behind:** retry the render. Version allocation checks both `project.json` and existing directories, preserves the incomplete folder, and automatically advances to `v002` rather than overwriting anything.
 - **FFmpeg setup needed:** run `ffmpeg -version` and `ffprobe -version` in the same terminal used for `python run.py`, or set absolute paths in `.env`.
 - **Transcription skipped:** install `faster-whisper`, or disable local transcription and configure a provider/key that supports `/audio/transcriptions`.
 - **OCR skipped:** install the Tesseract system executable and `pytesseract`.

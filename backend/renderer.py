@@ -335,10 +335,13 @@ def render_one_version(
     plan, plan_warning = generate_edit_plan(
         project_path, project, request.instructions, combined_feedback, request.include_captions, request.use_ai
     )
-    version_id = next_version_id(project)
+    version_id = next_version_id(project, project_path)
     version_dir = project_path / "versions" / version_id
+    # next_version_id accounts for both completed metadata and interrupted render
+    # directories. Keep this guard as a final race-safety check; project jobs are
+    # serialized by the API, so it should never be reached in normal operation.
     if version_dir.exists():
-        raise RuntimeError(f"Version directory {version_id} already exists; refusing to overwrite it")
+        raise RuntimeError(f"Could not allocate an unused version directory after selecting {version_id}")
     work_dir = version_dir / "work"
     work_dir.mkdir(parents=True)
     write_json(version_dir / "edit_plan.json", plan.model_dump(mode="json"))
