@@ -55,9 +55,36 @@ The skill is a plain Markdown file you can read, edit and commit:
 Requires Python 3.11+ on Linux.
 
 ```bash
+./install.sh
+```
+
+That creates `./.venv`, installs Lema into it, and symlinks the launcher into
+`~/.local/bin/lema` so the command works from any directory. If `~/.local/bin`
+is not on your `PATH` the script prints the exact line to add to your shell rc.
+Use `./install.sh --prefix /usr/local/bin` to link elsewhere, or
+`./install.sh --uninstall` to remove the link.
+
+<details>
+<summary>Other ways to install</summary>
+
+```bash
+# pipx - isolated, on PATH, no symlink needed
+pipx install -e .
+
+# uv
+uv tool install --editable .
+
+# plain venv: note that `lema` is only on PATH once the venv is active
 python3 -m venv .venv
 .venv/bin/pip install -e .
+source .venv/bin/activate   # ...or call ./.venv/bin/lema directly
 ```
+
+A bare `pip install -e .` into a virtualenv installs the launcher at
+`.venv/bin/lema`. Until that directory is on your `PATH` — by activating the
+venv or linking the binary — your shell will report `command not found: lema`.
+
+</details>
 
 Then:
 
