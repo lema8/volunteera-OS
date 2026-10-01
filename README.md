@@ -65,7 +65,7 @@ The LLM never manipulates video bytes, supplies shell commands, or submits raw F
 
 ## Requirements
 
-- Python 3.11+
+- Python 3.11–3.14 (dependency pins include CPython 3.14 wheels)
 - FFmpeg **and FFprobe** available on `PATH`
 - A modern browser
 - Optional: an API key for an OpenAI-compatible provider
@@ -110,6 +110,7 @@ source .venv/bin/activate
 # Windows PowerShell
 # .venv\Scripts\Activate.ps1
 
+python -m pip install --upgrade pip setuptools wheel
 pip install -r requirements.txt
 cp .env.example .env       # Windows: copy .env.example .env
 python run.py
@@ -250,6 +251,7 @@ The core tests cover local plan generation, caption mapping, clip-order rejectio
 
 ## Troubleshooting
 
+- **`pydantic-core` fails to build on Python 3.14:** pull the latest branch and confirm `requirements.txt` uses `pydantic==2.12.5`. Remove the partially created `.venv`, create it again, upgrade pip, and reinstall. This version has a prebuilt CPython 3.14 wheel and does not require a local Rust build.
 - **FFmpeg setup needed:** run `ffmpeg -version` and `ffprobe -version` in the same terminal used for `python run.py`, or set absolute paths in `.env`.
 - **Transcription skipped:** install `faster-whisper`, or disable local transcription and configure a provider/key that supports `/audio/transcriptions`.
 - **OCR skipped:** install the Tesseract system executable and `pytesseract`.
