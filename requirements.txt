@@ -1,0 +1,10 @@
+fastapi==0.115.12
+uvicorn[standard]==0.34.2
+python-multipart==0.0.20
+pydantic==2.11.4
+httpx==0.28.1
+python-dotenv==1.1.0
+Pillow==11.2.1
+# Optional local analysis integrations (install as needed):
+# faster-whisper>=1.1.1
+# pytesseract>=0.3.13

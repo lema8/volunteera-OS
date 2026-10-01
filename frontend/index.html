@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Local-first AI video editing with human approval and real FFmpeg rendering.">
+  <title>Cutwise — AI Video Editor Agent</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <div id="toast-region" class="toast-region" aria-live="polite"></div>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <a href="#dashboard" class="brand" aria-label="Cutwise home">
+        <span class="brand-mark"><span></span><span></span><span></span></span>
+        <span class="brand-copy"><strong>cutwise</strong><small>AI VIDEO AGENT</small></span>
+      </a>
+      <nav class="main-nav" aria-label="Main navigation">
+        <a href="#dashboard" data-route="dashboard"><i data-icon="home"></i><span>Dashboard</span></a>
+        <a href="#projects" data-route="projects"><i data-icon="folder"></i><span>Projects</span></a>
+        <div class="nav-label">Workspace</div>
+        <a href="#project" data-route="project" class="project-required"><i data-icon="clapper"></i><span>Current Project</span></a>
+        <a href="#timeline" data-route="timeline" class="project-required"><i data-icon="timeline"></i><span>Timeline</span></a>
+        <a href="#assets" data-route="assets" class="project-required"><i data-icon="image"></i><span>Assets</span></a>
+        <a href="#history" data-route="history" class="project-required"><i data-icon="history"></i><span>Render History</span></a>
+        <div class="nav-label">Configure</div>
+        <a href="#ai-settings" data-route="ai-settings"><i data-icon="sparkles"></i><span>AI Settings</span></a>
+        <a href="#settings" data-route="settings"><i data-icon="settings"></i><span>Settings</span></a>
+      </nav>
+      <div class="sidebar-status" id="system-status">
+        <span class="status-dot checking"></span>
+        <div><strong>Checking local tools</strong><small>FFmpeg & services</small></div>
+      </div>
+      <div class="human-note"><i data-icon="shield"></i><span><strong>You stay in control.</strong> AI suggestions never override your approval.</span></div>
+    </aside>
+
+    <div class="main-column">
+      <header class="topbar">
+        <button class="icon-button mobile-menu" id="mobile-menu" aria-label="Open menu"><i data-icon="menu"></i></button>
+        <div class="project-switcher-wrap">
+          <span class="eyebrow">ACTIVE PROJECT</span>
+          <button id="project-switcher" class="project-switcher">
+            <span id="active-project-name">No project selected</span><i data-icon="chevron"></i>
+          </button>
+          <div id="project-menu" class="dropdown hidden"></div>
+        </div>
+        <div class="topbar-actions">
+          <button class="icon-button" id="refresh-button" title="Refresh"><i data-icon="refresh"></i></button>
+          <button class="btn btn-primary" data-action="new-project"><i data-icon="plus"></i><span>New project</span></button>
+          <div class="avatar" title="Local workspace">LW</div>
+        </div>
+      </header>
+
+      <main id="view-root" tabindex="-1">
+        <section class="view" id="view-dashboard" data-view="dashboard"></section>
+        <section class="view" id="view-projects" data-view="projects"></section>
+        <section class="view" id="view-project" data-view="project"></section>
+        <section class="view" id="view-timeline" data-view="timeline"></section>
+        <section class="view" id="view-assets" data-view="assets"></section>
+        <section class="view" id="view-history" data-view="history"></section>
+        <section class="view" id="view-ai-settings" data-view="ai-settings"></section>
+        <section class="view" id="view-settings" data-view="settings"></section>
+      </main>
+    </div>
+  </div>
+
+  <div class="modal-backdrop hidden" id="project-modal" role="dialog" aria-modal="true" aria-labelledby="project-modal-title">
+    <form class="modal-card" id="project-form">
+      <button class="modal-close" type="button" data-action="close-modal" aria-label="Close"><i data-icon="x"></i></button>
+      <span class="modal-icon"><i data-icon="clapper"></i></span>
+      <p class="eyebrow accent">NEW PROJECT</p>
+      <h2 id="project-modal-title">What are we making?</h2>
+      <p class="muted">Start with a clear brief. You can refine it before every editing pass.</p>
+      <label>Project name<input name="name" required maxlength="100" placeholder="e.g. Mountain bike weekend"></label>
+      <div class="form-row">
+        <label>Editing style<select name="style"><option>Clean, engaging YouTube edit</option><option>Fast-paced creator vlog</option><option>Calm cinematic story</option><option>Educational explainer</option><option>Gaming highlights</option></select></label>
+      </div>
+      <label>Creative brief <span class="optional">optional</span><textarea name="instructions" rows="4" placeholder="What is the story, audience, mood, and desired outcome?"></textarea></label>
+      <div class="modal-actions"><button type="button" class="btn btn-ghost" data-action="close-modal">Cancel</button><button type="submit" class="btn btn-primary">Create project <i data-icon="arrow"></i></button></div>
+    </form>
+  </div>
+
+  <div class="modal-backdrop hidden" id="feedback-modal" role="dialog" aria-modal="true" aria-labelledby="feedback-title">
+    <form class="modal-card compact" id="feedback-form">
+      <button class="modal-close" type="button" data-action="close-feedback" aria-label="Close"><i data-icon="x"></i></button>
+      <p class="eyebrow accent">HUMAN DIRECTION</p>
+      <h2 id="feedback-title">What would you like changed?</h2>
+      <p class="muted">Your feedback has higher priority than the AI's own review.</p>
+      <input type="hidden" name="version_id">
+      <label>Your rating <span id="rating-value" class="rating-value">8/10</span><input type="range" name="rating" min="1" max="10" value="8"></label>
+      <label>Feedback<textarea name="feedback" required rows="5" placeholder="The intro is too slow. Use fewer zooms. Keep music out of dialogue..."></textarea></label>
+      <div class="modal-actions"><button type="button" class="btn btn-ghost" data-action="close-feedback">Cancel</button><button type="submit" class="btn btn-primary">Save & regenerate <i data-icon="refresh"></i></button></div>
+    </form>
+  </div>
+
+  <input type="file" id="clip-file-input" accept="video/*,.mkv,.mov,.m4v,.webm,.avi" multiple hidden>
+  <input type="file" id="asset-file-input" multiple hidden>
+  <script src="/app.js" defer></script>
+</body>
+</html>

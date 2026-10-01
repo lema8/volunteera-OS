@@ -1,0 +1,50 @@
+{
+  "clip_id": "example-intro",
+  "clip": "Generated color-and-pattern intro",
+  "source_signature": "7b6f2f8a11d8bb20730fee7cbcb6e0ac9ec50c68e25e6d3dc0f00b7d0ced7ebc",
+  "analysis_profile": {
+    "frame_interval": 12,
+    "local_whisper": true,
+    "whisper_model": "small",
+    "ocr": true,
+    "vision": false,
+    "vision_model": null
+  },
+  "analyzed_at": "2026-09-30T22:08:42.446941+00:00",
+  "duration": 3.0,
+  "metadata": {
+    "duration": 3.0,
+    "width": 640,
+    "height": 360,
+    "fps": 24.0,
+    "video_codec": "h264",
+    "pixel_format": "yuv420p",
+    "has_audio": true,
+    "audio_codec": "aac",
+    "audio_channels": 1,
+    "audio_sample_rate": 48000,
+    "format": "QuickTime / MOV",
+    "size": 296370,
+    "bit_rate": 790320
+  },
+  "frames": [
+    {
+      "time": 0,
+      "file": "frame_0001.jpg",
+      "kind": "interval"
+    }
+  ],
+  "scenes": [
+    {
+      "start": 0.0,
+      "end": 3.0,
+      "change_score": 0.7
+    }
+  ],
+  "speech": [],
+  "ocr": [],
+  "visual_summary": "",
+  "hook_candidates": [],
+  "ending_candidates": [],
+  "events": []
+}
