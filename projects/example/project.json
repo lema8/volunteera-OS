@@ -1,0 +1,74 @@
+{
+  "id": "example",
+  "name": "Creator Launch — Example",
+  "description": "A small, copyright-free sample with landscape/audio and portrait/no-audio footage for trying the real pipeline.",
+  "instructions": "Create a concise YouTube story. Open with the strongest moment, preserve enough setup for context, keep effects restrained, and finish on a clear payoff.",
+  "style": "Clean, engaging YouTube edit",
+  "created_at": "2026-09-30T00:00:00+00:00",
+  "updated_at": "2026-09-30T22:08:42.516403+00:00",
+  "clips": [
+    {
+      "id": "example-intro",
+      "name": "Generated color-and-pattern intro",
+      "original_filename": "creator-intro.mp4",
+      "file": "input/creator-intro.mp4",
+      "thumbnail": "analysis/example-intro/thumbnail.jpg",
+      "size": 296370,
+      "order": 0,
+      "metadata": {
+        "duration": 3.0,
+        "width": 640,
+        "height": 360,
+        "fps": 24.0,
+        "video_codec": "h264",
+        "pixel_format": "yuv420p",
+        "has_audio": true,
+        "audio_codec": "aac",
+        "audio_channels": 1,
+        "audio_sample_rate": 48000,
+        "format": "QuickTime / MOV",
+        "size": 296370,
+        "bit_rate": 790320
+      },
+      "analysis_status": "complete",
+      "uploaded_at": "2026-09-30T00:00:00+00:00",
+      "analysis_file": "analysis/example-intro/analysis.json"
+    },
+    {
+      "id": "example-outro",
+      "name": "Generated portrait outro",
+      "original_filename": "creator-outro.mp4",
+      "file": "input/creator-outro.mp4",
+      "thumbnail": "analysis/example-outro/thumbnail.jpg",
+      "size": 5717,
+      "order": 1,
+      "metadata": {
+        "duration": 2.0,
+        "width": 360,
+        "height": 640,
+        "fps": 30.0,
+        "video_codec": "h264",
+        "pixel_format": "yuv420p",
+        "has_audio": false,
+        "audio_codec": null,
+        "audio_channels": 0,
+        "audio_sample_rate": 0,
+        "format": "QuickTime / MOV",
+        "size": 5717,
+        "bit_rate": 22868
+      },
+      "analysis_status": "complete",
+      "uploaded_at": "2026-09-30T00:00:00+00:00",
+      "analysis_file": "analysis/example-outro/analysis.json"
+    }
+  ],
+  "assets": [],
+  "versions": [],
+  "final_version": null,
+  "workflow": "ready",
+  "analysis_warnings": [
+    "Generated color-and-pattern intro: transcription skipped (faster-whisper is not installed)",
+    "Generated color-and-pattern intro: OCR skipped (pytesseract/Pillow is not installed)",
+    "Generated portrait outro: OCR skipped (pytesseract/Pillow is not installed)"
+  ]
+}
