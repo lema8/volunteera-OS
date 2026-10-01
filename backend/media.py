@@ -40,16 +40,28 @@ def run_checked(command: list[str], error_label: str = "FFmpeg") -> subprocess.C
     return result
 
 
+def parse_number(value: Any, default: float = 0) -> float:
+    """Parse an FFmpeg numeric field without trusting placeholders such as N/A."""
+    try:
+        number = float(value)
+        return number if math.isfinite(number) else default
+    except (TypeError, ValueError):
+        return default
+
+
+def parse_integer(value: Any, default: int = 0) -> int:
+    number = parse_number(value, float(default))
+    return int(number) if math.isfinite(number) else default
+
+
 def parse_fraction(value: str | None) -> float:
     if not value or value in {"0/0", "N/A"}:
         return 0
     if "/" in value:
         numerator, denominator = value.split("/", 1)
-        return float(numerator) / float(denominator) if float(denominator) else 0
-    try:
-        return float(value)
-    except ValueError:
-        return 0
+        parsed_denominator = parse_number(denominator)
+        return parse_number(numerator) / parsed_denominator if parsed_denominator else 0
+    return parse_number(value)
 
 
 def probe_media(path: Path) -> dict[str, Any]:
@@ -66,23 +78,30 @@ def probe_media(path: Path) -> dict[str, Any]:
     if not video:
         raise MediaError("This file does not contain a readable video stream")
     format_info = info.get("format", {})
-    duration = float(format_info.get("duration") or video.get("duration") or 0)
+    duration = next(
+        (number for number in (
+            parse_number(format_info.get("duration")),
+            parse_number(video.get("duration")),
+        ) if number > 0),
+        0,
+    )
     if duration <= 0:
         raise MediaError("The video duration could not be determined")
+    reported_size = parse_integer(format_info.get("size"), path.stat().st_size)
     return {
         "duration": round(duration, 3),
-        "width": int(video.get("width") or 0),
-        "height": int(video.get("height") or 0),
+        "width": parse_integer(video.get("width")),
+        "height": parse_integer(video.get("height")),
         "fps": round(parse_fraction(video.get("avg_frame_rate") or video.get("r_frame_rate")), 3),
         "video_codec": video.get("codec_name"),
         "pixel_format": video.get("pix_fmt"),
         "has_audio": bool(audio),
         "audio_codec": audio.get("codec_name") if audio else None,
-        "audio_channels": audio.get("channels") if audio else 0,
-        "audio_sample_rate": int(audio.get("sample_rate") or 0) if audio else 0,
+        "audio_channels": parse_integer(audio.get("channels")) if audio else 0,
+        "audio_sample_rate": parse_integer(audio.get("sample_rate")) if audio else 0,
         "format": format_info.get("format_long_name") or format_info.get("format_name"),
-        "size": int(format_info.get("size") or path.stat().st_size),
-        "bit_rate": int(format_info.get("bit_rate") or 0),
+        "size": reported_size if reported_size > 0 else path.stat().st_size,
+        "bit_rate": parse_integer(format_info.get("bit_rate")),
     }
 
 
@@ -163,8 +182,10 @@ def run_ffmpeg_progress(
     for line in process.stdout:
         key, _, value = line.strip().partition("=")
         if key in {"out_time_ms", "out_time_us"} and duration > 0:
-            # FFmpeg can emit AV_NOPTS_VALUE (-2^63) before the first encoded frame.
-            seconds = max(0, int(value or 0) / 1_000_000)
+            # Depending on the muxer, FFmpeg can emit N/A or AV_NOPTS_VALUE
+            # before the first encoded timestamp. Both mean 0% progress.
+            microseconds = parse_integer(value)
+            seconds = max(0, microseconds / 1_000_000)
             if callback:
                 callback(max(0, min(99, seconds / duration * 100)))
     assert process.stderr is not None

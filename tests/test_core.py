@@ -6,6 +6,7 @@ import unittest
 from pathlib import Path
 
 from backend.ai_client import AIError, deterministic_plan, validate_plan_for_project
+from backend.media import parse_fraction, parse_integer, parse_number
 from backend.schemas import EditingPlan
 from backend.storage import next_version_id, safe_filename, write_json
 
@@ -72,6 +73,15 @@ class EditingPlanTests(unittest.TestCase):
             })
             with self.assertRaisesRegex(AIError, "beyond"):
                 validate_plan_for_project(out_of_range, project)
+
+
+class MediaParsingTests(unittest.TestCase):
+    def test_ffmpeg_na_placeholders_do_not_raise(self):
+        self.assertEqual(parse_integer("N/A"), 0)
+        self.assertEqual(parse_integer(None, 42), 42)
+        self.assertEqual(parse_number("nan", 7), 7)
+        self.assertEqual(parse_fraction("N/A"), 0)
+        self.assertEqual(parse_fraction("30000/1001"), 30000 / 1001)
 
 
 class StorageTests(unittest.TestCase):
